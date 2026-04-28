@@ -6,23 +6,19 @@ import DashboardMockup from './DashboardMockup';
 
 /**
  * DashboardReveal — scroll-driven scale-up effect.
- *
- * offset: ['start 0.95', 'center 0.4']
- *  → progress=0 when the section's top is at 95% of the viewport (just peeking in)
- *  → progress=1 when the section's top is at 40% of the viewport (scrolled well in)
- *
- * This means: as the user scrolls and the dashboard rises into view,
- * the scale continuously grows from 0.62 → 1.0 — exactly like Shopdeck.
+ * Capped at 0.98 scale to ensure it doesn't cover the full screen or go beyond navbar.
  */
 export default function DashboardReveal() {
   const ref = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ['start 0.95', 'center 0.4'],
+    offset: ['start 0.95', 'center 0.3'],
   });
 
-  const rawScale   = useTransform(scrollYProgress, [0, 1], [0.62, 1.0]);
+  // Scale from 0.8 (mobile-friendly start) to 1.0 (capped by container padding)
+  // We use 0.8 to 1.0 but the container has px-8, so 1.0 is actually slightly less than full screen width.
+  const rawScale   = useTransform(scrollYProgress, [0, 1], [0.85, 1.0]);
   const rawOpacity = useTransform(scrollYProgress, [0, 0.4], [0.5, 1.0]);
 
   const scale   = useSpring(rawScale,   { stiffness: 60, damping: 20, mass: 0.5 });
@@ -32,15 +28,15 @@ export default function DashboardReveal() {
     <section className="w-full relative z-20 pb-16">
       {/* Ambient glow above the dashboard */}
       <div
-        className="absolute inset-x-[10%] -top-12 h-24 pointer-events-none"
+        className="absolute inset-x-[10%] -top-24 h-48 pointer-events-none"
         style={{
           background:
-            'radial-gradient(ellipse 80% 100% at 50% 0%, rgba(30,59,255,0.25) 0%, transparent 100%)',
-          filter: 'blur(24px)',
+            'radial-gradient(ellipse 80% 100% at 50% 0%, rgba(30,59,255,0.15) 0%, transparent 100%)',
+          filter: 'blur(40px)',
         }}
       />
 
-      <div ref={ref} className="w-full px-[5%]">
+      <div ref={ref} className="w-full max-w-[1440px] mx-auto px-4 md:px-12">
         <motion.div
           style={{
             scale,
@@ -48,7 +44,12 @@ export default function DashboardReveal() {
             transformOrigin: 'center top',
           }}
         >
-          <DashboardMockup />
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+          >
+            <DashboardMockup />
+          </motion.div>
         </motion.div>
       </div>
     </section>

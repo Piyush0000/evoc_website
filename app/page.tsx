@@ -1,8 +1,17 @@
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import DashboardReveal from '@/components/DashboardReveal';
-import TrustMarquee from '@/components/TrustMarquee';
-import Features from '@/components/Features';
+import BrandsStrip from '@/components/BrandsStrip';
+import ProblemSolution from '@/components/ProblemSolution';
+import CoreFeatures from '@/components/CoreFeatures';
+import SimplifiedSetup from '@/components/SimplifiedSetup';
+import PricingSection from '@/components/PricingSection';
+import OrdersStatSection from '@/components/OrdersStatSection';
+import ImpactSection from '@/components/ImpactSection';
+import FeaturedOn from '@/components/FeaturedOn';
+import FoundersSection from '@/components/FoundersSection';
+import FooterSection from '@/components/FooterSection';
+
 
 export default function Home() {
   return (
@@ -23,18 +32,44 @@ export default function Home() {
        * at page load (before any scrolling). As the user scrolls, the dashboard
        * continuously scales from 0.62 → 1.0.
        */}
-      <div style={{ marginTop: '0px', position: 'relative', zIndex: 20 }}>
+      <div className="-mt-20 md:mt-0 relative z-20">
         <DashboardReveal />
       </div>
 
-      {/* Trust Marquee */}
-      <TrustMarquee />
+      {/* Brands Strip */}
+      <div className="pt-20 pb-10">
+        <BrandsStrip />
+      </div>
 
-      {/* Features */}
-      <Features />
+      {/* Problem vs Solution Section */}
+      <ProblemSolution />
+
+      {/* Core Features Section */}
+      <CoreFeatures />
+
+      {/* Simplified Setup System */}
+      <SimplifiedSetup />
+
+      {/* Success-Based Pricing Section */}
+      <PricingSection />
+
+      {/* Cinematic Orders Stat Section */}
+      <OrdersStatSection />
+
+      {/* Impact We Create Section */}
+      <ImpactSection />
+
+      {/* Featured On Section */}
+      <FeaturedOn />
+
+      {/* Founders Section */}
+      <FoundersSection />
+
+      {/* Footer / Contact Section */}
+      <FooterSection />
 
       {/* Footer spacer */}
-      <div className="h-24 bg-black" />
+      <div className="h-16 bg-black" />
     </main>
   );
 }
