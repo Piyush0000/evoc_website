@@ -74,8 +74,6 @@ const cardVariants: Variants = {
 };
 
 export default function CoreFeatures() {
-  const wavePath = "M 0,90 C 50,80 110,70 170,90 C 230,110 280,160 330,170 C 380,178 430,165 480,158 C 540,150 590,160 640,140 C 700,115 770,55 870,40 C 980,25 1100,35 1220,55 C 1340,75 1450,85 1560,90 C 1640,93 1700,95 1760,110 C 1820,125 1870,130 1920,135 L 1920,360 L 0,360 Z";
-
   return (
     <section className="relative w-full bg-black pb-32 overflow-hidden" id="offering">
       <div className="max-w-7xl mx-auto px-6 pt-24 text-center relative z-10">
@@ -121,7 +119,7 @@ export default function CoreFeatures() {
                 <div className="card-front flex items-center justify-center px-6 py-4">
                   <div className="relative z-10 flex items-center gap-4 text-left">
                     <div className="p-3 bg-[#183EEB]/10 rounded-xl border border-[#183EEB]/20 group-hover:bg-[#183EEB]/20 transition-colors duration-500 shrink-0 shadow-[0_0_15px_rgba(24,62,235,0.1)]">
-                      {React.cloneElement(feature.icon as React.ReactElement<any>, { className: 'w-6 h-6 text-[#183EEB]' })}
+                      {React.cloneElement(feature.icon as React.ReactElement<{ className?: string }>, { className: 'w-6 h-6 text-[#183EEB]' })}
                     </div>
                     <h3 className="text-white text-base md:text-lg font-bold tracking-tighter uppercase leading-[1.1] max-w-[160px]">
                       {feature.title}

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, MotionValue } from 'framer-motion';
 
 const setupSteps = [
   {
@@ -89,7 +89,13 @@ function WordByWord({ text, className }: { text: string; className?: string }) {
   );
 }
 
-function Word({ children, progress, range }: any) {
+interface WordProps {
+  children: React.ReactNode;
+  progress: MotionValue<number>;
+  range: [number, number];
+}
+
+function Word({ children, progress, range }: WordProps) {
   const opacity = useTransform(progress, range, [0.1, 1]);
   const y = useTransform(progress, range, [10, 0]);
 

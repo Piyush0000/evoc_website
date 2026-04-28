@@ -1,9 +1,18 @@
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence, MotionValue } from 'framer-motion';
 
-const manualSteps = [
+interface BubbleData {
+  id: number;
+  title: string;
+  desc: string;
+  x: number;
+  y: number;
+  rotate: number;
+}
+
+const manualSteps: BubbleData[] = [
   { id: 1, title: 'Create item', desc: 'Name, SKU, category', x: 100, y: 100, rotate: -4 },
   { id: 2, title: 'Set pricing', desc: 'Cost, margin, tax', x: 450, y: 150, rotate: 6 },
   { id: 3, title: 'Assign supplier', desc: 'Link vendor details', x: 750, y: 220, rotate: -3 },
@@ -31,7 +40,7 @@ function ChaosConnections() {
   );
 }
 
-function FloatingBubble({ bubble, mouseX, mouseY }: any) {
+function FloatingBubble({ bubble, mouseX, mouseY }: { bubble: BubbleData; mouseX: MotionValue<number>; mouseY: MotionValue<number> }) {
   const bx = useTransform(mouseX, [0, 1000], [15, -15]);
   const by = useTransform(mouseY, [0, 600], [15, -15]);
 

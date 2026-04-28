@@ -25,7 +25,6 @@ export default function ProblemSolution() {
   });
 
   const cardsY = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const glowY = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
   return (
     <section 
@@ -164,14 +163,14 @@ export default function ProblemSolution() {
           className="mt-12 text-center"
         >
           <p className="text-white text-3xl md:text-4xl font-bold font-sans tracking-tight leading-tight">
-            "
+            &quot;
             <span 
               className="italic font-bold mr-3 text-blue-500"
               style={{ fontFamily: 'var(--font-instrument), serif' }}
             >
               Evoclabs
             </span>
-            replaces your entire stack with one system."
+            replaces your entire stack with one system.&quot;
           </p>
         </motion.div>
       </div>
