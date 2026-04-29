@@ -22,14 +22,12 @@ const FounderCard = ({
   name, 
   role, 
   image = null,
-  linkedin = "#",
-  twitter = "#"
+  linkedin = "#"
 }: { 
   name: string, 
   role: string, 
   image?: string | null,
-  linkedin?: string,
-  twitter?: string
+  linkedin?: string
 }) => (
   <motion.div 
     initial={{ opacity: 0, scale: 0.95 }}
@@ -75,14 +73,6 @@ const FounderCard = ({
         >
           <LinkedinIcon className="w-4 h-4 text-white" />
         </a>
-        <a 
-          href={twitter} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="p-2 bg-white/10 rounded-full hover:bg-white/20 hover:scale-110 transition-all duration-300"
-        >
-          <XIcon className="w-4 h-4 text-white" />
-        </a>
       </div>
     </div>
   </motion.div>
@@ -110,14 +100,12 @@ export default function FoundersSection() {
             role="founder and CEO"
             image={getPath('/images/founders/nishant.jpg')}
             linkedin="https://www.linkedin.com/in/nishant-raj-1ab9a9341/"
-            twitter="https://x.com/nishantraj"
           />
           <FounderCard 
             name="PIYUSH RATHORE" 
             role="co-founder and CTO"
             image={getPath('/images/founders/piyush.jpg')}
             linkedin="https://www.linkedin.com/in/piyussshhh/"
-            twitter="https://x.com/PIYUSH22052006"
           />
         </div>
       </div>
