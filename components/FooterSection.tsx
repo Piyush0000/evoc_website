@@ -83,102 +83,104 @@ const testimonials = [
   }
 ];
 
-export default function FooterSection() {
+export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }) {
   return (
     <footer className="relative w-full overflow-hidden bg-[#030303]">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-[#183EEB]/10 rounded-full blur-[150px] pointer-events-none z-0" />
       
       {/* ─── SECTION 1: CTA & TESTIMONIALS ─── */}
-      <div className="max-w-7xl mx-auto px-6 pt-24 pb-6 relative z-10">
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 lg:gap-16 items-start">
-          
-          {/* Left Column (Testimonials) - 7 columns */}
-          <div className="xl:col-span-7 flex flex-col gap-8">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">Trusted by <span className="text-[#183EEB] italic font-serif">forward-thinking</span> brands</h2>
-              <p className="text-white/40 text-sm md:text-base max-w-md font-medium">Join 100+ brands that are scaling their e-commerce operations with EVOC Labs.</p>
-            </motion.div>
+      {!hideCTA && (
+        <div className="max-w-7xl mx-auto px-6 pt-24 pb-6 relative z-10">
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 lg:gap-16 items-start">
             
-            <div className="relative mt-4 group">
-              {/* Fade overlays */}
-              <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#030303] to-transparent z-10" />
-              <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#030303] to-transparent z-10" />
+            {/* Left Column (Testimonials) - 7 columns */}
+            <div className="xl:col-span-7 flex flex-col gap-8">
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">Trusted by <span className="text-[#183EEB] italic font-serif">forward-thinking</span> brands</h2>
+                <p className="text-white/40 text-sm md:text-base max-w-md font-medium">Join 100+ brands that are scaling their e-commerce operations with EVOC Labs.</p>
+              </motion.div>
               
-              <div className="flex overflow-hidden">
-                <motion.div 
-                  className="flex gap-4 py-4"
-                  animate={{ x: ["0%", "-50%"] }}
-                  transition={{ 
-                    x: {
-                      repeat: Infinity,
-                      repeatType: "loop",
-                      duration: 40,
-                      ease: "linear"
-                    }
-                  }}
-                  whileHover={{ transition: { duration: 80 } }} // Slow down on hover
-                >
-                  {[...testimonials, ...testimonials].map((t, i) => (
-                    <div 
-                      key={i}
-                      className="w-[300px] md:w-[380px] shrink-0 bg-white/[0.02] border border-white/[0.05] hover:border-[#183EEB]/30 rounded-2xl p-6 flex flex-col gap-4 transition-all duration-500"
-                    >
-                      <p className="text-white/70 text-[13px] leading-relaxed flex-1 font-medium italic">
-                        &quot;{t.content}&quot;
-                      </p>
-                      <div className="flex flex-col pt-2 border-t border-white/5">
-                        <p className="text-white text-[14px] font-bold">{t.name}</p>
-                        <p className="text-[#183EEB] text-[10px] uppercase font-bold tracking-widest">{t.role}</p>
+              <div className="relative mt-4 group">
+                {/* Fade overlays */}
+                <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#030303] to-transparent z-10" />
+                <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#030303] to-transparent z-10" />
+                
+                <div className="flex overflow-hidden">
+                  <motion.div 
+                    className="flex gap-4 py-4"
+                    animate={{ x: ["0%", "-50%"] }}
+                    transition={{ 
+                      x: {
+                        repeat: Infinity,
+                        repeatType: "loop",
+                        duration: 40,
+                        ease: "linear"
+                      }
+                    }}
+                    whileHover={{ transition: { duration: 80 } }} // Slow down on hover
+                  >
+                    {[...testimonials, ...testimonials].map((t, i) => (
+                      <div 
+                        key={i}
+                        className="w-[300px] md:w-[380px] shrink-0 bg-white/[0.02] border border-white/[0.05] hover:border-[#183EEB]/30 rounded-2xl p-6 flex flex-col gap-4 transition-all duration-500"
+                      >
+                        <p className="text-white/70 text-[13px] leading-relaxed flex-1 font-medium italic">
+                          &quot;{t.content}&quot;
+                        </p>
+                        <div className="flex flex-col pt-2 border-t border-white/5">
+                          <p className="text-white text-[14px] font-bold">{t.name}</p>
+                          <p className="text-[#183EEB] text-[10px] uppercase font-bold tracking-widest">{t.role}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </motion.div>
+                    ))}
+                  </motion.div>
+                </div>
               </div>
             </div>
+
+            {/* Right Column (CTA Card) - 5 columns */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="xl:col-span-5 w-full rounded-3xl p-10 md:p-12 border border-[#183EEB]/20 flex flex-col relative z-30 overflow-hidden shadow-[0_0_80px_rgba(24,62,235,0.1)]"
+              style={{
+                background: 'radial-gradient(circle at top right, rgba(24,62,235,0.15), rgba(15,23,42,1))'
+              }}
+            >
+              <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[250px] h-[150px] bg-[#183EEB]/30 blur-[60px] pointer-events-none" />
+              
+              <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight relative z-10">
+                Ready to Scale?
+              </h3>
+              <p className="text-white/60 text-lg md:text-xl mb-10 leading-relaxed relative z-10">
+                Experience the AI-powered commerce operating system in action.
+              </p>
+              
+              <Link href="/demo" className="block w-full relative z-10">
+                <motion.div 
+                  whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(24,62,235,0.4)" }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-[#183EEB] text-white font-bold h-[72px] rounded-2xl flex items-center justify-center gap-3 transition-all cursor-pointer group"
+                >
+                  <span className="uppercase tracking-widest text-sm">Book a Free Demo Now</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </motion.div>
+              </Link>
+
+              <div className="mt-8 flex items-center justify-center gap-2 text-white/20 text-[10px] uppercase tracking-widest font-bold relative z-10">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                Secure & Confidential
+              </div>
+            </motion.div>
+
           </div>
-
-          {/* Right Column (CTA Card) - 5 columns */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="xl:col-span-5 w-full rounded-3xl p-10 md:p-12 border border-[#183EEB]/20 flex flex-col relative z-30 overflow-hidden shadow-[0_0_80px_rgba(24,62,235,0.1)]"
-            style={{
-              background: 'radial-gradient(circle at top right, rgba(24,62,235,0.15), rgba(15,23,42,1))'
-            }}
-          >
-            <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[250px] h-[150px] bg-[#183EEB]/30 blur-[60px] pointer-events-none" />
-            
-            <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight relative z-10">
-              Ready to Scale?
-            </h3>
-            <p className="text-white/60 text-lg md:text-xl mb-10 leading-relaxed relative z-10">
-              Experience the AI-powered commerce operating system in action.
-            </p>
-            
-            <Link href="/demo" className="block w-full relative z-10">
-              <motion.div 
-                whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(24,62,235,0.4)" }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-[#183EEB] text-white font-bold h-[72px] rounded-2xl flex items-center justify-center gap-3 transition-all cursor-pointer group"
-              >
-                <span className="uppercase tracking-widest text-sm">Book a Free Demo Now</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </motion.div>
-            </Link>
-
-            <div className="mt-8 flex items-center justify-center gap-2 text-white/20 text-[10px] uppercase tracking-widest font-bold relative z-10">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              Secure & Confidential
-            </div>
-          </motion.div>
-
         </div>
-      </div>
+      )}
 
       <div className="w-full max-w-[1440px] mx-auto px-10 md:px-20 mt-16 mb-16 relative z-10">
         <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />

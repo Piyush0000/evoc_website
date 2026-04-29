@@ -215,7 +215,7 @@ export default function CareersPage() {
         </div>
       </div>
 
-      <FooterSection />
+      <FooterSection hideCTA={true} />
     </main>
   );
 }

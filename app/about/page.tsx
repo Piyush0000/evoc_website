@@ -138,7 +138,7 @@ export default function AboutPage() {
         </div>
       </div>
 
-      <FooterSection />
+      <FooterSection hideCTA={true} />
     </main>
   );
 }
