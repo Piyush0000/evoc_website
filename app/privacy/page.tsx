@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ShieldCheck, Eye, Database, Lock, Mail } from 'lucide-react';
+import { ArrowLeft, ShieldCheck, Eye, Database, Lock, Mail, Users, Sparkles, Target } from 'lucide-react';
 import FooterSection from '@/components/FooterSection';
 
 export default function PrivacyPolicy() {
