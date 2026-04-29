@@ -79,19 +79,19 @@ export default function Navbar() {
           </div>
 
           <div className="flex-1 flex justify-end items-center gap-4">
-            <Link href="#signup" className="hidden sm:block">
+            <Link href="https://app.evoclabs.com/" className="hidden sm:block">
               <motion.button
                 whileHover={{ 
                   scale: 1.05,
-                  boxShadow: '0 0 25px rgba(24, 62, 235, 0.25)',
+                  boxShadow: '0 0 30px rgba(24, 62, 235, 0.5)',
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-2.5 text-[14px] font-semibold text-white/90 transition-all rounded-full border border-white/10 shadow-[0_4px_15px_rgba(0,0,0,0.5)] flex items-center gap-2 group"
+                className="px-6 py-2.5 text-[14px] font-bold text-white transition-all rounded-full border border-white/20 shadow-[0_4px_15px_rgba(24,62,235,0.3)] flex items-center gap-2 group"
                 style={{
-                  background: 'linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)',
+                  background: 'linear-gradient(135deg, #183EEB 0%, #3b82f6 100%)',
                 }}
               >
-                Sign up
+                Log in
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </motion.button>
             </Link>
@@ -157,9 +157,9 @@ export default function Navbar() {
                 transition={{ delay: 0.5 }}
                 className="pt-10 mt-10 border-t border-white/10"
               >
-                <Link href="#signup" onClick={() => setIsMobileMenuOpen(false)}>
-                  <button className="w-full py-5 rounded-2xl bg-[#183EEB] text-white font-bold text-xl shadow-[0_0_40px_rgba(24,62,235,0.3)]">
-                    Get Started
+                <Link href="https://app.evoclabs.com/" onClick={() => setIsMobileMenuOpen(false)}>
+                  <button className="w-full py-5 rounded-2xl bg-[#183EEB] text-white font-bold text-xl shadow-[0_0_40px_rgba(24,62,235,0.4)]">
+                    Log in
                   </button>
                 </Link>
               </motion.div>

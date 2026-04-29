@@ -266,11 +266,14 @@ export default function FooterSection() {
                 EVOC LABS
               </h4>
               <ul className="space-y-[14px]">
-                {['Worked Brands', 'Testimonials', 'Pricing', 'Blogs', 'Login'].map((link) => (
+                {['Worked Brands', 'Testimonials', 'Pricing', 'Blogs'].map((link) => (
                   <li key={link}>
-                    <a href="#" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">{link}</a>
+                    <a href={`#${link.toLowerCase().replace(' ', '-')}`} className="text-[15px] text-white hover:text-[#183EEB] transition-colors">{link}</a>
                   </li>
                 ))}
+                <li>
+                  <a href="https://app.evoclabs.com/" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Login</a>
+                </li>
               </ul>
             </div>
 
