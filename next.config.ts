@@ -4,8 +4,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig: NextConfig = {
   output: 'export',
-  basePath: isProd ? '/Evoc-labs' : '',
-  assetPrefix: isProd ? '/Evoc-labs/' : '',
+  basePath: isProd ? '/evoc-labs' : '',
   trailingSlash: true,
   images: {
     unoptimized: true,
