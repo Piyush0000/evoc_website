@@ -12,7 +12,7 @@ export default function Hero() {
       {/* ─── Clean High-Fidelity Background Image ─── */}
       <div className="absolute inset-0 z-0">
         <img 
-          src={getPath('/hero-bg-clean.png')} 
+          src={getPath('/hero-bg-clean.jpg')} 
           alt="" 
           className="w-full h-[85vh] object-cover opacity-100"
           style={{ objectPosition: 'center top' }}
