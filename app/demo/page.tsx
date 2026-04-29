@@ -15,7 +15,7 @@ export default function DemoPage() {
       {/* Back Link - Top Left */}
       <div className="absolute top-8 left-8 z-50">
         <Link 
-          href={getPath('/')} 
+          href="/" 
           className="inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors text-xs font-medium group"
         >
           <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-1 transition-transform" />
