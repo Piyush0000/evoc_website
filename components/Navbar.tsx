@@ -62,19 +62,26 @@ export default function Navbar() {
               transition={{ duration: 0.4, ease: 'easeInOut' }}
               className="flex items-center shadow-2xl"
             >
-              {['Home', 'Offering', 'About', 'Pricing', 'Blog'].map((item) => (
-                <Link
-                  key={item}
-                  href={item === 'Home' ? getPath('/') : `#${item.toLowerCase()}`}
-                  className={`transition-all duration-300 text-[14px] font-medium rounded-full outline-none focus:outline-none ${
-                    isScrolled 
-                      ? 'px-4 py-1.5 text-white/50 hover:text-white hover:bg-white/5' 
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                >
-                  {item}
-                </Link>
-              ))}
+              {['Home', 'Offering', 'About', 'Pricing', 'Blog'].map((item) => {
+                const isBlog = item === 'Blog';
+                const href = item === 'Home' ? getPath('/') : (isBlog ? 'https://www.unstoppableindia.net/post/how-evoc-labs-scaled-a-brand-from-32-lakhs-month-to-1-crore-month-in-just-30-days' : `#${item.toLowerCase()}`);
+                
+                return (
+                  <Link
+                    key={item}
+                    href={href}
+                    target={isBlog ? "_blank" : undefined}
+                    rel={isBlog ? "noopener noreferrer" : undefined}
+                    className={`transition-all duration-300 text-[14px] font-medium rounded-full outline-none focus:outline-none ${
+                      isScrolled 
+                        ? 'px-4 py-1.5 text-white/50 hover:text-white hover:bg-white/5' 
+                        : 'text-white/60 hover:text-white'
+                    }`}
+                  >
+                    {item}
+                  </Link>
+                );
+              })}
             </motion.div>
           </div>
 
@@ -132,24 +139,31 @@ export default function Navbar() {
             className="fixed inset-0 z-[90] bg-black/95 backdrop-blur-2xl md:hidden pt-32 px-10"
           >
             <div className="flex flex-col gap-8">
-              {['Home', 'Offering', 'About', 'Pricing', 'Blog'].map((item, i) => (
-                <motion.div
-                  key={item}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Link
-                    href={item === 'Home' ? getPath('/') : `#${item.toLowerCase()}`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-4xl font-bold text-white/50 hover:text-white transition-colors flex items-center gap-4"
-                    style={{ fontFamily: 'var(--font-instrument)' }}
+              {['Home', 'Offering', 'About', 'Pricing', 'Blog'].map((item, i) => {
+                const isBlog = item === 'Blog';
+                const href = item === 'Home' ? getPath('/') : (isBlog ? 'https://www.unstoppableindia.net/post/how-evoc-labs-scaled-a-brand-from-32-lakhs-month-to-1-crore-month-in-just-30-days' : `#${item.toLowerCase()}`);
+                
+                return (
+                  <motion.div
+                    key={item}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
                   >
-                    <span className="text-[#183EEB] text-sm font-mono">{`0${i + 1}`}</span>
-                    {item}
-                  </Link>
-                </motion.div>
-              ))}
+                    <Link
+                      href={href}
+                      target={isBlog ? "_blank" : undefined}
+                      rel={isBlog ? "noopener noreferrer" : undefined}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="text-4xl font-bold text-white/50 hover:text-white transition-colors flex items-center gap-4"
+                      style={{ fontFamily: 'var(--font-instrument)' }}
+                    >
+                      <span className="text-[#183EEB] text-sm font-mono">{`0${i + 1}`}</span>
+                      {item}
+                    </Link>
+                  </motion.div>
+                );
+              })}
               
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
