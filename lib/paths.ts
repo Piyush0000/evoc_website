@@ -3,7 +3,7 @@
  */
 
 const isProd = process.env.NODE_ENV === 'production';
-const REPO_NAME = '/evoc-labss';
+const REPO_NAME = '/Evoc-labs';
 
 export function getPath(path: string) {
   if (!path) return '';
