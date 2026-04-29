@@ -8,8 +8,8 @@ const brands = Array.from({ length: 17 }, (_, i) => getPath(`/brands/brand-${i +
 export default function BrandsStrip() {
   return (
     <div className="w-full py-12 overflow-hidden bg-transparent relative z-20">
-      <div className="flex flex-col items-center mb-8">
-        <span className="text-white/20 text-[10px] font-bold tracking-[0.4em] uppercase">
+      <div className="flex flex-col items-center mb-10">
+        <span className="text-white/40 text-[13px] font-bold tracking-[0.3em] uppercase">
           Trusted by 100+ high-growth brands
         </span>
       </div>
@@ -31,7 +31,7 @@ export default function BrandsStrip() {
           {[...brands, ...brands].map((logo, index) => (
             <div 
               key={index} 
-              className="flex items-center justify-center opacity-30 hover:opacity-100 transition-all duration-500"
+              className="flex items-center justify-center opacity-50 hover:opacity-100 transition-all duration-500"
             >
               <img 
                 src={logo} 
