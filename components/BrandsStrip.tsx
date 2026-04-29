@@ -3,9 +3,8 @@
 import { motion } from 'framer-motion';
 import { getPath } from '@/lib/paths';
 
-const brands = [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((i) => getPath(`/brands/brand-${i}.png`));
-
 export default function BrandsStrip() {
+  const brands = [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((i) => getPath(`/brands/brand-${i}.png`));
   return (
     <div id="brands" className="w-full py-12 overflow-hidden bg-transparent relative z-20">
       <div className="flex flex-col items-center mb-10">
