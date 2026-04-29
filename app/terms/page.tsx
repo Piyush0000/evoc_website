@@ -13,7 +13,7 @@ export default function TermsPage() {
         
         <div className="max-w-4xl mx-auto">
           <Link 
-            href={getPath('/')} 
+            href="/" 
             className="inline-flex items-center gap-2 text-[#183EEB] hover:text-white transition-colors text-sm font-medium mb-12 group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
