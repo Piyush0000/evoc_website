@@ -25,8 +25,7 @@ export default function DashboardMockup() {
             src={getPath('/dashboard-mockup.jpg')} 
             alt="Dashboard Mockup" 
             className="w-full h-auto block object-cover"
-            fetchPriority="high"
-            loading="eager"
+            loading="lazy"
             width={1200}
             height={600}
           />
