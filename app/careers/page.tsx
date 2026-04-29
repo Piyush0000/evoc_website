@@ -119,10 +119,11 @@ export default function CareersPage() {
           
           <div className="max-w-4xl mx-auto space-y-6">
             <motion.div 
+              layout
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className={`bg-white/[0.03] border border-white/10 rounded-[32px] overflow-hidden transition-all duration-500 ${isApplying ? 'bg-white/[0.05] border-blue-500/30' : 'hover:bg-white/[0.05]'}`}
+              className={`bg-white/[0.03] border border-white/10 rounded-[32px] overflow-hidden transition-all duration-500 ${isApplying ? 'bg-white/[0.05] border-blue-500/30 shadow-[0_20px_80px_rgba(24,62,235,0.1)]' : 'hover:bg-white/[0.05]'}`}
             >
               <div className="p-8 md:p-10">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -138,22 +139,23 @@ export default function CareersPage() {
                   </div>
                   
                   <button 
+                    type="button"
                     onClick={() => setIsApplying(!isApplying)}
-                    className="flex items-center gap-2 text-white hover:text-blue-500 transition-colors text-sm font-bold group"
+                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl transition-all text-sm font-bold group shadow-lg shadow-blue-600/20"
                   >
                     {isApplying ? 'Close' : 'Apply Now'}
                     {isApplying ? <ChevronUp className="w-4 h-4" /> : <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
                   </button>
                 </div>
 
-                <AnimatePresence>
+                <AnimatePresence initial={false}>
                   {isApplying && (
                     <motion.div
+                      key="application-form"
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <div className="mt-12 pt-12 border-t border-white/5">
                         <div className="mb-10">
@@ -161,34 +163,34 @@ export default function CareersPage() {
                           <p className="text-white/30 text-xs leading-relaxed font-medium">Your application is saved securely. We don't print applicant data to the console.</p>
                         </div>
 
-                        <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={(e) => e.preventDefault()}>
                           <div className="space-y-2">
                              <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Full name *</label>
-                             <input type="text" placeholder="Your name" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
+                             <input type="text" required placeholder="Your name" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
                           </div>
                           <div className="space-y-2">
                              <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Email *</label>
-                             <input type="email" placeholder="you@email.com" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
+                             <input type="email" required placeholder="you@email.com" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
                           </div>
                           <div className="space-y-2">
                              <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">GitHub *</label>
-                             <input type="url" placeholder="https://github.com/username" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
+                             <input type="url" required placeholder="https://github.com/username" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
                           </div>
                           <div className="space-y-2">
                              <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Portfolio *</label>
-                             <input type="url" placeholder="https://your-portfolio.com" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
+                             <input type="url" required placeholder="https://your-portfolio.com" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
                           </div>
                           <div className="space-y-2">
                              <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Resume link *</label>
-                             <input type="url" placeholder="Drive / Notion / PDF link" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
+                             <input type="url" required placeholder="Drive / Notion / PDF link" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
                           </div>
                           <div className="space-y-2">
                              <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Next.js project links *</label>
-                             <input type="text" placeholder="Comma-separated links" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
+                             <input type="text" required placeholder="Comma-separated links" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
                           </div>
                           
                           <div className="md:col-span-2 pt-4">
-                            <button className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-blue-600/10">
+                            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-all shadow-xl shadow-blue-600/10 active:scale-[0.98]">
                                Submit Application
                             </button>
                           </div>
