@@ -71,9 +71,6 @@ export default function Home() {
 
       {/* Footer / Contact Section */}
       <FooterSection />
-
-      {/* Footer spacer */}
-      <div className="h-16 bg-black" />
     </main>
   );
 }
