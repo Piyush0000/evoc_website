@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Code2, Rocket, Users, Target, ShieldCheck, Mail, Briefcase, Sparkles, MapPin, Clock } from 'lucide-react';
 import { getPath } from '@/lib/paths';
+import FooterSection from '@/components/FooterSection';
 
 export default function CareersPage() {
   const whyWorkItems = [
@@ -197,14 +198,7 @@ export default function CareersPage() {
         </div>
       </div>
 
-      {/* Mini Footer */}
-      <div className="max-w-6xl mx-auto px-6 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-        <p className="text-white/10 text-[10px] font-bold uppercase tracking-[0.2em]">&copy; 2026 EVOC LABS. All rights reserved.</p>
-        <div className="flex items-center gap-6">
-           <Link href="/privacy" className="text-white/10 hover:text-white/30 text-[10px] font-bold uppercase tracking-widest transition-colors">Privacy</Link>
-           <Link href="/terms" className="text-white/10 hover:text-white/30 text-[10px] font-bold uppercase tracking-widest transition-colors">Terms</Link>
-        </div>
-      </div>
+      <FooterSection />
     </main>
   );
 }
