@@ -8,7 +8,7 @@ import FooterSection from '@/components/FooterSection';
 
 export default function PrivacyPolicy() {
   return (
-    <main className="bg-[#030303] min-h-screen text-white selection:bg-blue-600/30 font-sans pb-20">
+    <main className="bg-[#030303] min-h-screen text-white selection:bg-blue-600/30 font-sans">
       {/* Background Glow */}
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 

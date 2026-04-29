@@ -27,10 +27,11 @@ export default function AboutPage() {
   ];
 
   return (
-    <main className="bg-[#030303] min-h-screen text-white selection:bg-blue-600/30 font-sans pb-20">
-      {/* Subtle Background Glow */}
+    <main className="bg-[#030303] min-h-screen text-white selection:bg-blue-600/30 font-sans">
+      {/* Subtle Background Glows */}
       <div className="fixed top-0 right-0 w-full h-full pointer-events-none -z-10">
-        <div className="absolute top-[-10%] right-[20%] w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full" />
+        <div className="absolute top-[-10%] right-[20%] w-[600px] h-[600px] bg-blue-600/[0.03] blur-[140px] rounded-full" />
+        <div className="absolute bottom-[20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/[0.02] blur-[120px] rounded-full" />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 pt-8">
@@ -47,16 +48,24 @@ export default function AboutPage() {
         </div>
 
         {/* Hero Section */}
-        <div className="max-w-3xl mb-40">
+        <div className="max-w-4xl mb-40">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-8 leading-[1.1]">
-              The Operating System for <span className="text-blue-500">D2C Success.</span>
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-[1.05]">
+              The Operating System for <span className="text-blue-500 relative">
+                D2C Success
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: '100%' }}
+                  transition={{ delay: 0.5, duration: 1 }}
+                  className="absolute bottom-2 left-0 h-1 bg-blue-500/30 rounded-full"
+                />
+              </span>
             </h1>
-            <p className="text-white/40 text-base md:text-lg leading-relaxed font-medium max-w-2xl">
+            <p className="text-white/40 text-lg md:text-xl leading-relaxed font-medium max-w-2xl">
               EVOC Labs is an AI-powered full-stack commerce platform helping eCommerce and D2C brands build, operate, and scale from a single dashboard.
             </p>
           </motion.div>
@@ -64,9 +73,12 @@ export default function AboutPage() {
 
         {/* Story Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 mb-40 items-center">
-           <div className="space-y-6">
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Our <span className="text-blue-500">Story</span></h2>
-              <div className="space-y-4 text-white/50 text-sm md:text-base leading-relaxed max-w-lg">
+           <div className="space-y-8">
+              <div className="space-y-4">
+                <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Our <span className="text-blue-500">Story</span></h2>
+                <div className="w-12 h-1 bg-blue-600/50 rounded-full" />
+              </div>
+              <div className="space-y-6 text-white/50 text-base leading-relaxed max-w-lg font-medium">
                 <p>
                   We unify store infrastructure, sales and ads analytics, checkout optimization, logistics intelligence, AI calling agents, abandoned cart recovery, and growth automation into one ecosystem.
                 </p>
@@ -75,29 +87,37 @@ export default function AboutPage() {
                 </p>
               </div>
               <div className="pt-6 grid grid-cols-2 gap-8">
-                <div>
-                   <div className="text-2xl font-bold text-white">100+</div>
-                   <div className="text-white/20 text-[10px] font-bold uppercase tracking-widest">Brands Scaling</div>
+                <div className="group cursor-default">
+                   <div className="text-3xl font-bold text-white group-hover:text-blue-500 transition-colors">100+</div>
+                   <div className="text-white/20 text-[10px] font-bold uppercase tracking-widest mt-1">Brands Scaling</div>
                 </div>
-                <div>
-                   <div className="text-2xl font-bold text-white">₹50Cr+</div>
-                   <div className="text-white/20 text-[10px] font-bold uppercase tracking-widest">Ad Spend</div>
+                <div className="group cursor-default">
+                   <div className="text-3xl font-bold text-white group-hover:text-blue-500 transition-colors">₹50Cr+</div>
+                   <div className="text-white/20 text-[10px] font-bold uppercase tracking-widest mt-1">Ad Spend</div>
                 </div>
               </div>
            </div>
-           <div className="bg-white/[0.02] border border-white/10 rounded-[32px] p-12 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/10 blur-3xl" />
-              <Target className="w-10 h-10 text-blue-500 mb-6" />
+           <motion.div 
+             whileHover={{ y: -5 }}
+             className="bg-white/[0.02] border border-white/10 rounded-[40px] p-12 relative overflow-hidden group backdrop-blur-sm shadow-2xl shadow-blue-500/5"
+           >
+              <div className="absolute top-0 right-0 w-48 h-48 bg-blue-600/10 blur-[80px] group-hover:bg-blue-600/20 transition-all duration-500" />
+              <div className="w-14 h-14 bg-blue-600/10 rounded-2xl flex items-center justify-center mb-8 border border-blue-500/20">
+                <Target className="w-7 h-7 text-blue-500" />
+              </div>
               <h3 className="text-2xl font-bold mb-4 italic font-serif">The Mission</h3>
-              <p className="text-white/40 text-sm leading-relaxed">
+              <p className="text-white/40 text-base leading-relaxed">
                  To simplify commerce operations, improve conversions, reduce inefficiencies, and help brands grow profitably through AI-driven solutions. EVOC Labs is building the operating system for modern commerce.
               </p>
-           </div>
+           </motion.div>
         </div>
 
         {/* Our Values */}
         <div className="mb-40">
-          <h2 className="text-center text-3xl md:text-4xl font-bold mb-16 tracking-tight">Our <span className="text-blue-500">Values</span></h2>
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight">Our <span className="text-blue-500">Values</span></h2>
+            <p className="text-white/20 text-xs font-bold uppercase tracking-[0.3em]">Built for the long term</p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((item, i) => (
               <motion.div 
@@ -106,12 +126,13 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.04] transition-all"
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="p-8 bg-white/[0.02] border border-white/5 rounded-[32px] hover:bg-white/[0.04] hover:border-blue-500/30 transition-all duration-500 shadow-xl group"
               >
-                <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6">
-                  {item.icon}
+                <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 border border-blue-500/20 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500">
+                  {React.cloneElement(item.icon as React.ReactElement, { className: 'w-6 h-6 transition-colors group-hover:text-white' })}
                 </div>
-                <h3 className="text-lg font-bold mb-3">{item.title}</h3>
+                <h3 className="text-xl font-bold mb-3">{item.title}</h3>
                 <p className="text-white/40 text-sm leading-relaxed font-medium">{item.desc}</p>
               </motion.div>
             ))}

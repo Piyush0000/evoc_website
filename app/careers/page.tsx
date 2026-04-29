@@ -46,11 +46,11 @@ export default function CareersPage() {
     : positions.filter(p => p.category === activeFilter);
 
   return (
-    <main className="bg-[#030303] min-h-screen text-white selection:bg-blue-600/30 font-sans pb-20">
+    <main className="bg-[#030303] min-h-screen text-white selection:bg-blue-600/30 font-sans">
       {/* Subtle Background Elements */}
       <div className="fixed top-0 left-0 w-full h-full pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[10%] right-[10%] w-[400px] h-[400px] bg-blue-600/5 blur-[100px] rounded-full" />
+        <div className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] bg-blue-600/[0.03] blur-[140px] rounded-full" />
+        <div className="absolute bottom-[10%] right-[10%] w-[500px] h-[500px] bg-blue-600/[0.02] blur-[120px] rounded-full" />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 pt-8">
@@ -111,12 +111,13 @@ export default function CareersPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="p-8 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.04] transition-all"
+              whileHover={{ y: -10, scale: 1.02 }}
+              className="p-8 bg-white/[0.02] border border-white/5 rounded-[32px] hover:bg-white/[0.04] hover:border-blue-500/30 transition-all duration-500 shadow-xl group"
             >
-              <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6">
-                {item.icon}
+              <div className="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6 border border-blue-500/20 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500">
+                {React.cloneElement(item.icon as React.ReactElement, { className: 'w-6 h-6 transition-colors group-hover:text-white' })}
               </div>
-              <h3 className="text-lg font-bold mb-3">{item.title}</h3>
+              <h3 className="text-xl font-bold mb-3">{item.title}</h3>
               <p className="text-white/40 text-sm leading-relaxed font-medium">{item.desc}</p>
             </motion.div>
           ))}
