@@ -2,7 +2,7 @@
  * Unified Path Helper for GitHub Pages Deployment
  */
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === 'production' || process.env.GITHUB_ACTIONS === 'true';
 const REPO_NAME = '/evoc-labss';
 
 export function getPath(path: string) {
