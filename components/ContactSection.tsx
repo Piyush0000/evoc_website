@@ -1,32 +1,95 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2 } from 'lucide-react';
-import { useState } from 'react';
+import { CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
+
+type FormState = {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  message: string;
+};
+
+const initialForm: FormState = {
+  name: '',
+  email: '',
+  phoneNumber: '',
+  message: '',
+};
 
 export default function ContactSection() {
+  const [form, setForm] = useState<FormState>(initialForm);
+  const [submitting, setSubmitting] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Contact Send Message submitted");
-    
-    try {
-      if (typeof window !== 'undefined' && (window as any).fbq) {
-        (window as any).fbq('track', 'Lead');
-      }
-    } catch (e) {
-      console.error('Meta Pixel error:', e);
+    if (submitting) return;
+
+    setSubmitting(true);
+    setErrorMessage(null);
+
+    const apiBase = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiBase) {
+      setErrorMessage('Submission unavailable. Please try again later.');
+      setSubmitting(false);
+      return;
     }
-    
-    // Show toast
-    setShowToast(true);
-    
-    // Hide toast after 4 seconds
-    setTimeout(() => {
-      setShowToast(false);
-    }, 4000);
+
+    try {
+      const response = await fetch(`${apiBase}/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phoneNumber: form.phoneNumber,
+          message: form.message,
+          formType: 'book-demo',
+        }),
+      });
+
+      if (response.status !== 201) {
+        let detail = '';
+        try {
+          const body = await response.json();
+          detail = body?.error || '';
+        } catch {
+          // ignore parse failure
+        }
+        throw new Error(detail || `Request failed (${response.status})`);
+      }
+
+      try {
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'Lead');
+        }
+      } catch (err) {
+        console.error('Meta Pixel error:', err);
+      }
+
+      setForm(initialForm);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 4000);
+    } catch (err: any) {
+      console.error('Lead submission failed:', err);
+      setErrorMessage(
+        err?.message === 'Failed to fetch'
+          ? 'Network error. Please check your connection and try again.'
+          : err?.message || 'Something went wrong. Please try again.'
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -35,13 +98,13 @@ export default function ContactSection() {
       <div className="absolute bottom-0 left-0 w-full h-1/2 bg-blue-900/10 blur-[120px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto relative z-10">
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           className="text-center italic text-white mb-20"
-          style={{ 
-            fontFamily: 'var(--font-instrument), serif', 
-            fontSize: 'clamp(32px, 4vw, 48px)' 
+          style={{
+            fontFamily: 'var(--font-instrument), serif',
+            fontSize: 'clamp(32px, 4vw, 48px)',
           }}
         >
           Book a free demo
@@ -49,7 +112,7 @@ export default function ContactSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left Side: Content */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -65,7 +128,7 @@ export default function ContactSection() {
           </motion.div>
 
           {/* Right Side: Form Card */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -74,52 +137,79 @@ export default function ContactSection() {
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-2">
                 <label className="text-gray-400 text-sm font-medium ml-1">Full Name</label>
-                <input 
-                  type="text" 
-                  placeholder="" 
+                <input
+                  type="text"
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
                   required
-                  className="w-full bg-[#1A1A1A] border-none rounded-2xl h-14 px-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none"
+                  disabled={submitting}
+                  className="w-full bg-[#1A1A1A] border-none rounded-2xl h-14 px-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none disabled:opacity-60"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-gray-400 text-sm font-medium ml-1">Email</label>
-                  <input 
-                    type="email" 
-                    placeholder="" 
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
                     required
-                    className="w-full bg-[#1A1A1A] border-none rounded-2xl h-14 px-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none"
+                    disabled={submitting}
+                    className="w-full bg-[#1A1A1A] border-none rounded-2xl h-14 px-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none disabled:opacity-60"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-gray-400 text-sm font-medium ml-1">Phone Number</label>
-                  <input 
-                    type="tel" 
-                    placeholder="" 
+                  <input
+                    type="tel"
+                    name="phoneNumber"
+                    value={form.phoneNumber}
+                    onChange={handleChange}
                     required
-                    className="w-full bg-[#1A1A1A] border-none rounded-2xl h-14 px-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none"
+                    disabled={submitting}
+                    className="w-full bg-[#1A1A1A] border-none rounded-2xl h-14 px-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none disabled:opacity-60"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
                 <label className="text-gray-400 text-sm font-medium ml-1">Message</label>
-                <textarea 
+                <textarea
                   rows={5}
-                  placeholder="" 
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
                   required
-                  className="w-full bg-[#1A1A1A] border-none rounded-2xl p-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none resize-none"
+                  disabled={submitting}
+                  className="w-full bg-[#1A1A1A] border-none rounded-2xl p-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none resize-none disabled:opacity-60"
                 />
               </div>
 
+              {errorMessage && (
+                <div className="flex items-start gap-2 text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-2xl px-4 py-3">
+                  <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-colors shadow-lg shadow-blue-900/20 pointer-events-auto"
+                disabled={submitting}
+                whileHover={submitting ? undefined : { scale: 1.02 }}
+                whileTap={submitting ? undefined : { scale: 0.98 }}
+                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-colors shadow-lg shadow-blue-900/20 pointer-events-auto flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Send Message
+                {submitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Sending...</span>
+                  </>
+                ) : (
+                  <span>Send Message</span>
+                )}
               </motion.button>
             </form>
           </motion.div>
