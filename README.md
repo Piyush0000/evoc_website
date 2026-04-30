@@ -33,3 +33,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `/components` - Modular React components for the landing page
 - `/lib` - Utility functions and font configurations
 - `tailwind.config.ts` - Tailwind CSS theme and design tokens
+"# evoc_website" 
