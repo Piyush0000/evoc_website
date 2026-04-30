@@ -161,15 +161,18 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
                 Experience the AI-powered commerce operating system in action.
               </p>
               
-              <Link href="/demo" className="block w-full relative z-10">
+              <Link 
+                href="/demo" 
+                className="block w-full relative z-10"
+                onClick={() => {
+                  if (typeof window !== 'undefined' && (window as any).fbq) {
+                    (window as any).fbq('track', 'Lead');
+                  }
+                }}
+              >
                 <motion.div 
                   whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(24,62,235,0.4)" }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    if (typeof window !== 'undefined' && (window as any).fbq) {
-                      (window as any).fbq('track', 'Lead');
-                    }
-                  }}
                   className="w-full bg-[#183EEB] text-white font-bold h-[72px] rounded-2xl flex items-center justify-center gap-3 transition-all cursor-pointer group"
                 >
                   <span className="uppercase tracking-widest text-sm">Book a Free Demo Now</span>
