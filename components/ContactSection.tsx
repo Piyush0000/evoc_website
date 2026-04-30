@@ -87,6 +87,11 @@ export default function ContactSection() {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={() => {
+                  if (typeof window !== 'undefined' && (window as any).fbq) {
+                    (window as any).fbq('track', 'Lead');
+                  }
+                }}
                 className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-colors shadow-lg shadow-blue-900/20"
               >
                 Send Message

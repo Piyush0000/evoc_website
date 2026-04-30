@@ -108,7 +108,14 @@ export default function DemoPage() {
               </div>
 
               <div className="pt-4">
-                <button className="w-full flex items-center justify-center gap-3 bg-[#183EEB] hover:bg-[#183EEB]/90 text-white font-bold py-4 rounded-xl shadow-[0_10px_40px_rgba(24,62,235,0.25)] transition-all group text-sm uppercase tracking-widest">
+                <button 
+                  onClick={() => {
+                    if (typeof window !== 'undefined' && (window as any).fbq) {
+                      (window as any).fbq('track', 'Lead');
+                    }
+                  }}
+                  className="w-full flex items-center justify-center gap-3 bg-[#183EEB] hover:bg-[#183EEB]/90 text-white font-bold py-4 rounded-xl shadow-[0_10px_40px_rgba(24,62,235,0.25)] transition-all group text-sm uppercase tracking-widest"
+                >
                   Request a Demo
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </button>
