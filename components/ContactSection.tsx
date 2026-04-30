@@ -1,9 +1,34 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
 
 export default function ContactSection() {
+  const [showToast, setShowToast] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Contact Send Message submitted");
+    
+    try {
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead');
+      }
+    } catch (e) {
+      console.error('Meta Pixel error:', e);
+    }
+    
+    // Show toast
+    setShowToast(true);
+    
+    // Hide toast after 4 seconds
+    setTimeout(() => {
+      setShowToast(false);
+    }, 4000);
+  };
+
   return (
     <section className="bg-black py-24 px-6 relative overflow-hidden">
       {/* Background Atmosphere */}
@@ -46,12 +71,13 @@ export default function ContactSection() {
             viewport={{ once: true }}
             className="bg-[#111111] rounded-[40px] p-8 md:p-12 border border-white/5 shadow-2xl"
           >
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="space-y-2">
                 <label className="text-gray-400 text-sm font-medium ml-1">Full Name</label>
                 <input 
                   type="text" 
                   placeholder="" 
+                  required
                   className="w-full bg-[#1A1A1A] border-none rounded-2xl h-14 px-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none"
                 />
               </div>
@@ -62,6 +88,7 @@ export default function ContactSection() {
                   <input 
                     type="email" 
                     placeholder="" 
+                    required
                     className="w-full bg-[#1A1A1A] border-none rounded-2xl h-14 px-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none"
                   />
                 </div>
@@ -70,6 +97,7 @@ export default function ContactSection() {
                   <input 
                     type="tel" 
                     placeholder="" 
+                    required
                     className="w-full bg-[#1A1A1A] border-none rounded-2xl h-14 px-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none"
                   />
                 </div>
@@ -80,19 +108,16 @@ export default function ContactSection() {
                 <textarea 
                   rows={5}
                   placeholder="" 
+                  required
                   className="w-full bg-[#1A1A1A] border-none rounded-2xl p-6 text-white focus:ring-2 focus:ring-blue-500 transition-all outline-none resize-none"
                 />
               </div>
 
               <motion.button
+                type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => {
-                  if (typeof window !== 'undefined' && (window as any).fbq) {
-                    (window as any).fbq('track', 'Lead');
-                  }
-                }}
-                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-colors shadow-lg shadow-blue-900/20"
+                className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl transition-colors shadow-lg shadow-blue-900/20 pointer-events-auto"
               >
                 Send Message
               </motion.button>
@@ -100,6 +125,23 @@ export default function ContactSection() {
           </motion.div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {showToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 20, x: '-50%' }}
+            className="fixed bottom-10 left-1/2 z-[100] pointer-events-none"
+          >
+            <div className="bg-blue-600 text-white px-8 py-4 rounded-2xl shadow-2xl shadow-blue-900/40 flex items-center gap-3 border border-white/20 backdrop-blur-md">
+              <CheckCircle2 className="w-5 h-5" />
+              <span className="font-bold text-sm tracking-tight">Message Sent Successfully!</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

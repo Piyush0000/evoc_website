@@ -18,7 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-bg-primary">
-      <head>
+      <body 
+        className={`${inter.variable} ${instrumentSerif.variable} ${playfair.variable} ${bodoni.variable} font-sans antialiased text-text-white selection:bg-brand-blue/30`}
+        suppressHydrationWarning
+      >
         {/* Meta Pixel Code */}
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
@@ -45,11 +48,6 @@ export default function RootLayout({
           />
         </noscript>
         {/* End Meta Pixel Code */}
-      </head>
-      <body 
-        className={`${inter.variable} ${instrumentSerif.variable} ${playfair.variable} ${bodoni.variable} font-sans antialiased text-text-white selection:bg-brand-blue/30`}
-        suppressHydrationWarning
-      >
         {children}
       </body>
     </html>

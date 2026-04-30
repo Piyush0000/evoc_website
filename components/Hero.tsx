@@ -2,9 +2,11 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { getPath } from '@/lib/paths';
 
 export default function Hero() {
+  const router = useRouter();
   return (
     <section
       className="relative w-full bg-black flex flex-col items-center overflow-hidden h-auto pb-20"
@@ -110,21 +112,26 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-col items-center gap-12 relative z-50 mb-12 md:mb-0"
+          className="flex flex-col items-center gap-12 relative z-50 mb-12 md:mb-0 pointer-events-auto"
         >
-          <Link 
-            href="/demo"
+          <button
+            type="button"
             onClick={() => {
-              if (typeof window !== 'undefined' && (window as any).fbq) {
-                (window as any).fbq('track', 'Lead');
+              console.log("Book Demo clicked");
+              try {
+                if (typeof window !== 'undefined' && (window as any).fbq) {
+                  (window as any).fbq('track', 'Lead');
+                }
+              } catch (e) {
+                console.error('Meta Pixel error:', e);
               }
+              router.push('/demo');
             }}
+            className="group flex items-center gap-3.5 bg-white/[0.03] backdrop-blur-md border border-white/[0.15] hover:border-blue-500/50 px-8 py-3 rounded-[14px] text-white text-[15px] transition-all hover:bg-white/[0.06] shadow-[0_0_20px_rgba(37,99,235,0.2)] hover:shadow-[0_0_35px_rgba(37,99,235,0.45)] cursor-pointer"
           >
-            <div className="group flex items-center gap-3.5 bg-white/[0.03] backdrop-blur-md border border-white/[0.15] hover:border-blue-500/50 px-8 py-3 rounded-[14px] text-white text-[15px] transition-all hover:bg-white/[0.06] shadow-[0_0_20px_rgba(37,99,235,0.2)] hover:shadow-[0_0_35px_rgba(37,99,235,0.45)] cursor-pointer">
-              <span className="font-medium tracking-tight">Book a Free Demo</span>
-              <span className="text-white/60 group-hover:translate-x-0.5 transition-transform">→</span>
-            </div>
-          </Link>
+            <span className="font-medium tracking-tight">Book a Free Demo</span>
+            <span className="text-white/60 group-hover:translate-x-0.5 transition-transform">→</span>
+          </button>
         </motion.div>
 
       </div>

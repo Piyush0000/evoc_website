@@ -3,10 +3,34 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Calendar, ShieldCheck, User, Phone, ChevronDown, ShoppingBag, BarChart3 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, ShieldCheck, User, Phone, ChevronDown, ShoppingBag, BarChart3, CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
 import { getPath } from '@/lib/paths';
 
 export default function DemoPage() {
+  const [showToast, setShowToast] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Demo Request submitted");
+    
+    try {
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead');
+      }
+    } catch (e) {
+      console.error('Meta Pixel error:', e);
+    }
+    
+    // Show toast
+    setShowToast(true);
+    
+    // Hide toast after 4 seconds
+    setTimeout(() => {
+      setShowToast(false);
+    }, 4000);
+  };
+
   return (
     <main className="bg-black h-screen w-full text-white selection:bg-[#183EEB]/30 overflow-hidden relative font-sans">
       {/* Background Glow */}
@@ -43,7 +67,7 @@ export default function DemoPage() {
             </div>
 
             {/* Form Section */}
-            <form className="space-y-4 max-w-md" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4 max-w-md" onSubmit={handleSubmit}>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-1">
@@ -54,6 +78,7 @@ export default function DemoPage() {
                     <input 
                       type="text" 
                       placeholder="Name"
+                      required
                       className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm"
                     />
                   </div>
@@ -70,6 +95,7 @@ export default function DemoPage() {
                     <input 
                       type="tel" 
                       placeholder="Number"
+                      required
                       className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3 px-4 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm"
                     />
                   </div>
@@ -85,6 +111,7 @@ export default function DemoPage() {
                   <input 
                     type="text" 
                     placeholder="e.g. Fashion, Electronics, Beauty"
+                    required
                     className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-11 pr-4 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm"
                   />
                 </div>
@@ -96,7 +123,10 @@ export default function DemoPage() {
                 </label>
                 <div className="relative group">
                   <BarChart3 className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20 group-focus-within:text-[#183EEB] transition-colors" />
-                  <select className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-11 pr-10 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm appearance-none cursor-pointer">
+                  <select 
+                    required
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-11 pr-10 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm appearance-none cursor-pointer"
+                  >
                     <option value="" className="bg-[#0A0A0A]">Select Monthly Revenue</option>
                     <option value="0-5" className="bg-[#0A0A0A]">₹0 - ₹5 Lakhs</option>
                     <option value="5-20" className="bg-[#0A0A0A]">₹5 Lakhs - ₹20 Lakhs</option>
@@ -109,12 +139,8 @@ export default function DemoPage() {
 
               <div className="pt-4">
                 <button 
-                  onClick={() => {
-                    if (typeof window !== 'undefined' && (window as any).fbq) {
-                      (window as any).fbq('track', 'Lead');
-                    }
-                  }}
-                  className="w-full flex items-center justify-center gap-3 bg-[#183EEB] hover:bg-[#183EEB]/90 text-white font-bold py-4 rounded-xl shadow-[0_10px_40px_rgba(24,62,235,0.25)] transition-all group text-sm uppercase tracking-widest"
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-3 bg-[#183EEB] hover:bg-[#183EEB]/90 text-white font-bold py-4 rounded-xl shadow-[0_10px_40px_rgba(24,62,235,0.25)] transition-all group text-sm uppercase tracking-widest pointer-events-auto"
                 >
                   Request a Demo
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -168,6 +194,18 @@ export default function DemoPage() {
           </motion.div>
         </div>
       </div>
+
+      {/* Toast Notification */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: showToast ? 1 : 0, y: showToast ? 0 : 50 }}
+        className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] pointer-events-none"
+      >
+        <div className="bg-[#183EEB] text-white px-6 py-4 rounded-2xl shadow-2xl shadow-blue-900/40 flex items-center gap-3 border border-white/20 backdrop-blur-xl">
+          <CheckCircle2 className="w-5 h-5" />
+          <span className="font-bold text-sm tracking-tight">Request Sent! We&apos;ll contact you soon.</span>
+        </div>
+      </motion.div>
     </main>
   );
 }

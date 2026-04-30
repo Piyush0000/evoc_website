@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { getPath } from '@/lib/paths';
 import { ArrowRight, ShieldCheck } from 'lucide-react';
 
@@ -84,6 +85,7 @@ const testimonials = [
 ];
 
 export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }) {
+  const router = useRouter();
   return (
     <footer className="relative w-full overflow-hidden bg-[#030303]">
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-[#183EEB]/10 rounded-full blur-[150px] pointer-events-none z-0" />
@@ -161,24 +163,27 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
                 Experience the AI-powered commerce operating system in action.
               </p>
               
-              <Link 
-                href="/demo" 
-                className="block w-full relative z-10"
-                onClick={() => {
-                  if (typeof window !== 'undefined' && (window as any).fbq) {
-                    (window as any).fbq('track', 'Lead');
-                  }
-                }}
-              >
+              <div className="block w-full relative z-10 pointer-events-auto">
                 <motion.div 
                   whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(24,62,235,0.4)" }}
                   whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    console.log("Footer Ready to Scale clicked");
+                    try {
+                      if (typeof window !== 'undefined' && (window as any).fbq) {
+                        (window as any).fbq('track', 'Lead');
+                      }
+                    } catch (e) {
+                      console.error('Meta Pixel error:', e);
+                    }
+                    router.push('/demo');
+                  }}
                   className="w-full bg-[#183EEB] text-white font-bold h-[72px] rounded-2xl flex items-center justify-center gap-3 transition-all cursor-pointer group"
                 >
                   <span className="uppercase tracking-widest text-sm">Book a Free Demo Now</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </motion.div>
-              </Link>
+              </div>
 
               <div className="mt-8 flex items-center justify-center gap-2 text-white/20 text-[10px] uppercase tracking-widest font-bold relative z-10">
                 <ShieldCheck className="w-3.5 h-3.5" />
