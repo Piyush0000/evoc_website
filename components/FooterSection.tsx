@@ -58,7 +58,7 @@ const testimonials = [
   },
   {
     name: "Pistachious Bracelets",
-    role: "Co-Founder, Skincare Brand",
+    role: "Co-Founder, Jewellery Brand",
     content: "Working with EVOC Labs felt like adding a growth team to our business. Their AI automations and checkout optimizations helped us scale profitably."
   },
   {
@@ -68,7 +68,7 @@ const testimonials = [
   },
   {
     name: "Moonstruck appliances",
-    role: "Founder, Jewelry Brand",
+    role: "Founder, Home Appliance Brand",
     content: "What impressed us most was the WhatsApp recovery automation and AI calling integrations. We started recovering abandoned orders at a scale we couldn’t manage manually."
   },
   {
