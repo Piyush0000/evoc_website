@@ -3,32 +3,96 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Calendar, ShieldCheck, User, Phone, ChevronDown, ShoppingBag, BarChart3, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, ShieldCheck, User, Phone, ChevronDown, ShoppingBag, BarChart3, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 import { getPath } from '@/lib/paths';
 
+const REVENUE_LABELS: Record<string, string> = {
+  '0-5': '0-5 Lakhs',
+  '5-20': '5-20 Lakhs',
+  '20-50': '20-50 Lakhs',
+  '50+': '50+ Lakhs',
+};
+
+const initialForm = {
+  name: '',
+  phoneNumber: '',
+  category: '',
+  revenueRange: '',
+};
+
 export default function DemoPage() {
+  const [form, setForm] = useState(initialForm);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Demo Request submitted");
-    
-    try {
-      if (typeof window !== 'undefined' && (window as any).fbq) {
-        (window as any).fbq('track', 'Lead');
-      }
-    } catch (e) {
-      console.error('Meta Pixel error:', e);
+    if (loading) return;
+
+    setLoading(true);
+    setError(null);
+
+    const apiBase = process.env.NEXT_PUBLIC_API_URL;
+    if (!apiBase) {
+      setError('Submission unavailable. Please try again later.');
+      setLoading(false);
+      return;
     }
-    
-    // Show toast
-    setShowToast(true);
-    
-    // Hide toast after 4 seconds
-    setTimeout(() => {
-      setShowToast(false);
-    }, 4000);
+
+    try {
+      const response = await fetch(`${apiBase}/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          phoneNumber: form.phoneNumber,
+          category: form.category,
+          revenueRange: REVENUE_LABELS[form.revenueRange] || form.revenueRange,
+          formType: 'book-demo',
+        }),
+      });
+
+      if (response.status !== 201) {
+        let detail = '';
+        try {
+          const body = await response.json();
+          detail = body?.error || '';
+        } catch {
+          // ignore parse failure
+        }
+        throw new Error(detail || `Request failed (${response.status})`);
+      }
+
+      try {
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'Lead');
+        }
+      } catch (err) {
+        console.error('Meta Pixel error:', err);
+      }
+
+      setForm(initialForm);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 4000);
+    } catch (err: any) {
+      console.error('Demo submission failed:', err);
+      setError(
+        err?.message === 'Failed to fetch'
+          ? 'Network error. Please check your connection and try again.'
+          : err?.message || 'Something went wrong. Please try again.'
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -75,11 +139,15 @@ export default function DemoPage() {
                   </label>
                   <div className="relative group">
                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20 group-focus-within:text-[#183EEB] transition-colors" />
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      disabled={loading}
                       placeholder="Name"
                       required
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm disabled:opacity-60"
                     />
                   </div>
                 </div>
@@ -92,11 +160,15 @@ export default function DemoPage() {
                     <div className="bg-white/[0.03] border border-white/10 rounded-xl py-3 px-3 text-[12px] text-white/30 flex items-center shrink-0">
                       +91
                     </div>
-                    <input 
-                      type="tel" 
+                    <input
+                      type="tel"
+                      name="phoneNumber"
+                      value={form.phoneNumber}
+                      onChange={handleChange}
+                      disabled={loading}
                       placeholder="Number"
                       required
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3 px-4 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3 px-4 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm disabled:opacity-60"
                     />
                   </div>
                 </div>
@@ -108,11 +180,15 @@ export default function DemoPage() {
                 </label>
                 <div className="relative group">
                   <ShoppingBag className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20 group-focus-within:text-[#183EEB] transition-colors" />
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
+                    name="category"
+                    value={form.category}
+                    onChange={handleChange}
+                    disabled={loading}
                     placeholder="e.g. Fashion, Electronics, Beauty"
                     required
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-11 pr-4 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-11 pr-4 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm disabled:opacity-60"
                   />
                 </div>
               </div>
@@ -123,9 +199,13 @@ export default function DemoPage() {
                 </label>
                 <div className="relative group">
                   <BarChart3 className="absolute left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20 group-focus-within:text-[#183EEB] transition-colors" />
-                  <select 
+                  <select
+                    name="revenueRange"
+                    value={form.revenueRange}
+                    onChange={handleChange}
+                    disabled={loading}
                     required
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-11 pr-10 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm appearance-none cursor-pointer"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-3.5 pl-11 pr-10 focus:border-[#183EEB]/50 focus:bg-white/[0.05] outline-none transition-all text-sm appearance-none cursor-pointer disabled:opacity-60"
                   >
                     <option value="" className="bg-[#0A0A0A]">Select Monthly Revenue</option>
                     <option value="0-5" className="bg-[#0A0A0A]">₹0 - ₹5 Lakhs</option>
@@ -137,13 +217,30 @@ export default function DemoPage() {
                 </div>
               </div>
 
+              {error && (
+                <div className="flex items-start gap-2 text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+                  <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
+
               <div className="pt-4">
-                <button 
+                <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-3 bg-[#183EEB] hover:bg-[#183EEB]/90 text-white font-bold py-4 rounded-xl shadow-[0_10px_40px_rgba(24,62,235,0.25)] transition-all group text-sm uppercase tracking-widest pointer-events-auto"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-3 bg-[#183EEB] hover:bg-[#183EEB]/90 text-white font-bold py-4 rounded-xl shadow-[0_10px_40px_rgba(24,62,235,0.25)] transition-all group text-sm uppercase tracking-widest pointer-events-auto disabled:opacity-70 disabled:cursor-not-allowed"
                 >
-                  Request a Demo
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Request a Demo
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
                 </button>
               </div>
 
