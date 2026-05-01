@@ -4,7 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Elevate E-commerce Dashboard",
+  title: "EVOC LABS",
   description: "Launch, Run & Scale Your E-commerce From One Dashboard.",
   icons: {
     icon: "/favicon.png",

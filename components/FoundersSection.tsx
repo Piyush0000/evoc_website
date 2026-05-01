@@ -59,7 +59,7 @@ const FounderCard = ({
       <h3 className="text-xl md:text-2xl font-bold uppercase tracking-wider mb-0.5 drop-shadow-md">
         {name}
       </h3>
-      <p className="text-xs md:text-sm font-medium opacity-90 lowercase tracking-wide mb-4">
+      <p className="text-xs md:text-sm font-medium opacity-90 capitalize tracking-wide mb-4">
         {role}
       </p>
       
