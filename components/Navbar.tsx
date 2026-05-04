@@ -72,14 +72,14 @@ export default function Navbar() {
                 if (isHome) href = '/';
                 if (isAbout) href = '/about';
                 if (isPricing) href = '/#impact';
-                if (isBlog) href = 'https://www.unstoppableindia.net/post/how-evoc-labs-scaled-a-brand-from-32-lakhs-month-to-1-crore-month-in-just-30-days';
+                if (isBlog) href = '/blog';
                 
                 return (
                   <Link
                     key={item}
                     href={href}
-                    target={isBlog ? "_blank" : undefined}
-                    rel={isBlog ? "noopener noreferrer" : undefined}
+                    
+                    
                     className={`transition-all duration-300 text-[14px] font-medium rounded-full outline-none focus:outline-none ${
                       isScrolled 
                         ? 'px-4 py-1.5 text-white/50 hover:text-white hover:bg-white/5' 
@@ -157,7 +157,7 @@ export default function Navbar() {
                 if (isHome) href = '/';
                 if (isAbout) href = '/about';
                 if (isPricing) href = '/#impact';
-                if (isBlog) href = 'https://www.unstoppableindia.net/post/how-evoc-labs-scaled-a-brand-from-32-lakhs-month-to-1-crore-month-in-just-30-days';
+                if (isBlog) href = '/blog';
                 
                 return (
                   <motion.div
@@ -168,8 +168,8 @@ export default function Navbar() {
                   >
                     <Link
                       href={href}
-                      target={isBlog ? "_blank" : undefined}
-                      rel={isBlog ? "noopener noreferrer" : undefined}
+                      
+                      
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="text-4xl font-bold text-white/50 hover:text-white transition-colors flex items-center gap-4"
                       style={{ fontFamily: 'var(--font-instrument)' }}
