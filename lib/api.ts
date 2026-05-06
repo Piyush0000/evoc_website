@@ -1,4 +1,8 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5001';
+const RAW_API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.evoclabs.com';
+// Some env conventions set NEXT_PUBLIC_API_URL to ".../api"; this module
+// always appends "/api/...". Strip a trailing "/api" (and any trailing slash)
+// so we never produce "/api/api/blogs".
+const API_URL = RAW_API_URL.replace(/\/+$/, '').replace(/\/api$/, '');
 
 export interface Blog {
   id: string | number;
@@ -28,16 +32,44 @@ export class BlogFetchError extends Error {
 
 export async function fetchBlogs(): Promise<Blog[]> {
   const url = `${API_URL}/api/blogs?t=${Date.now()}`;
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
-    mode: 'cors',
-    cache: 'no-store',
-  });
-  if (!response.ok) {
-    throw new BlogFetchError(`Failed to fetch blogs: ${response.statusText}`, response.status);
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
+      mode: 'cors',
+      cache: 'no-store',
+    });
+  } catch (networkErr: any) {
+    console.error(`[blog-sync] network error calling ${url}:`, networkErr?.message ?? networkErr);
+    throw new BlogFetchError(`Failed to fetch blogs: ${networkErr?.message ?? 'network error'}`);
   }
-  const result = await response.json();
+
+  const rawBody = await response.text();
+  if (!response.ok) {
+    console.error(
+      `[blog-sync] non-OK response from ${url} → status=${response.status} ${response.statusText} body=${rawBody.slice(0, 500)}`,
+    );
+    throw new BlogFetchError(
+      `Failed to fetch blogs: ${response.status} ${response.statusText}`,
+      response.status,
+    );
+  }
+
+  let result: any;
+  try {
+    result = rawBody ? JSON.parse(rawBody) : {};
+  } catch (parseErr) {
+    console.error(`[blog-sync] could not parse JSON from ${url}: ${rawBody.slice(0, 500)}`);
+    throw new BlogFetchError('Failed to fetch blogs: invalid JSON response');
+  }
+
+  // Backend may return { success, data: [], warning: "Blog model not provisioned" }
+  // when Prisma is stale — surface the warning but treat as empty list, not an error.
+  if (result && typeof result === 'object' && result.warning) {
+    console.warn(`[blog-sync] backend warning: ${result.warning}`);
+  }
+
   const blogs: Blog[] = Array.isArray(result) ? result : (result.data || []);
   const published = blogs.filter(blog => blog.published === true);
   console.log(`[blog-sync] fetched list: ${published.length} published / ${blogs.length} total`);

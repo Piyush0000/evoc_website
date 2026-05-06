@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:5001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.evoclabs.com';
 const POLL_INTERVAL_MS = 8000;
 const RECONNECT_DELAY_MS = 5000;
 
