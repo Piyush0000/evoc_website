@@ -9,8 +9,10 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.png",
   },
-  other: {
-    "facebook-domain-verification": "d7o408y2sehyfqmrcaaw0oguuublt9",
+  verification: {
+    other: {
+      "facebook-domain-verification": "d7o408y2sehyfqmrcaaw0oguublt9",
+    },
   },
 };
 
