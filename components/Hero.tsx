@@ -88,10 +88,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
-          Launch, Run &amp; Scale Your{' '}
-          <em className="font-serif italic text-white/90">E-commerce</em>
-          <br />
-          From One Dashboard.
+          Run your D2C brand<br />Pay only 4% when orders deliver
         </motion.h1>
 
         {/* Sub-headline */}
@@ -102,9 +99,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
         >
-          Store, Ads, Logistics,
-          <br />
-          AI &amp; Automation — Unified.
+          Store, Ads, Logistics, AI Calling, Checkout & WhatsApp — one platform. ₹0 subscription
         </motion.p>
 
         {/* CTA */}
@@ -112,7 +107,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-col items-center gap-12 relative z-50 mb-12 md:mb-0 pointer-events-auto"
+          className="flex flex-col items-center gap-6 relative z-50 mb-12 md:mb-0 pointer-events-auto"
         >
           <button
             type="button"

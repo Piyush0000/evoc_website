@@ -22,8 +22,8 @@ export default function DashboardMockup() {
         <div className="relative bg-white rounded-[11px] md:rounded-[23px] overflow-hidden shadow-2xl">
           {/* Main Dashboard Image */}
           <img 
-            src={getPath('/dashboard-mockup.jpg')} 
-            alt="Dashboard Mockup" 
+            src={getPath('/orbit-360-dashboard.png')} 
+            alt="Orbit 360 Dashboard Mockup" 
             className="w-full h-auto block object-cover"
             loading="lazy"
             width={1200}

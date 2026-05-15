@@ -49,59 +49,47 @@ const ImpactCard = ({ title, subtitle, className = "", align = "left", delay = 0
   </motion.div>
 );
 
+import SavingsCalculator from './SavingsCalculator';
+
 export default function ImpactSection() {
   return (
-    <section id="impact" className="bg-black py-16 px-6 -mt-32 relative z-30">
-      <div className="max-w-4xl mx-auto">
-        <motion.h2 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          className="text-center italic text-white mb-12"
-          style={{ 
-            fontFamily: 'var(--font-instrument), serif', 
-            fontSize: 'clamp(32px, 4vw, 48px)' 
-          }}
-        >
-          Impact We Create
-        </motion.h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[140px] md:auto-rows-[160px]">
-          {/* Active Brands - Large Left */}
-          <ImpactCard 
-            title="150+" 
-            subtitle="Active brands"
-            className="md:col-span-5 md:row-span-2"
-            align="left"
-            delay={0.1}
-          />
-
-          {/* Saved Amount - Wide Top Right */}
-          <ImpactCard 
-            title="₹1,00,000" 
-            subtitle="Saved amount on manual brand launch"
-            className="md:col-span-7 md:row-span-1"
-            align="center"
-            delay={0.2}
-          />
-
-          {/* Annual Selling - Bottom Mid */}
-          <ImpactCard 
-            title="10Cr" 
-            subtitle="Annual selling among sellers"
-            className="md:col-span-4 md:row-span-1"
-            align="center"
-            delay={0.3}
-          />
-
-          {/* Delivery Success - Bottom Right */}
-          <ImpactCard 
-            title="88%" 
-            subtitle="Delivery success"
-            className="md:col-span-3 md:row-span-1"
-            align="center"
-            delay={0.4}
-          />
+    <section id="impact" className="bg-black py-16 px-4 md:px-6 relative z-30">
+      <div className="max-w-[1300px] mx-auto">
+        <div className="text-center mb-16">
+          <motion.h2 
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="italic text-white mb-4"
+            style={{ 
+              fontFamily: 'var(--font-instrument), serif', 
+              fontSize: 'clamp(40px, 5vw, 64px)' 
+            }}
+          >
+            Impact We Create
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-[#9CA3AF] text-lg max-w-2xl mx-auto"
+          >
+            See how Evoc Labs can help you save more and reduce RTO.
+          </motion.p>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="w-full rounded-[24px] overflow-hidden border border-[#1E293B] shadow-2xl"
+        >
+          {/* We reuse the SavingsCalculator component here, 
+              it already has a perfect dark blue background and layout. */}
+          <div className="bg-[#030712] w-full h-full">
+            <SavingsCalculator hideHeader={true} />
+          </div>
+        </motion.div>
       </div>
     </section>
   );
