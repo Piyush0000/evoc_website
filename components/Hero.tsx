@@ -107,7 +107,7 @@ export default function Hero() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex flex-col items-center gap-12 relative z-50 mb-12 md:mb-0 pointer-events-auto"
+          className="flex flex-col items-center gap-6 relative z-50 mb-12 md:mb-0 pointer-events-auto"
         >
           <button
             type="button"

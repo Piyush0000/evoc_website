@@ -12,7 +12,7 @@ import ReviewsSection from '@/components/ReviewsSection';
 import FeaturedOn from '@/components/FeaturedOn';
 import FoundersSection from '@/components/FoundersSection';
 import FooterSection from '@/components/FooterSection';
-
+import FloatingCTA from '@/components/FloatingCTA';
 
 export default function Home() {
   return (
@@ -71,6 +71,9 @@ export default function Home() {
 
       {/* Footer / Contact Section */}
       <FooterSection />
+
+      {/* Floating CTA Button on Scroll */}
+      <FloatingCTA />
     </main>
   );
 }

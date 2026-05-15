@@ -36,7 +36,7 @@ export default function DashboardReveal() {
         }}
       />
 
-      <div ref={ref} className="w-full max-w-[1440px] mx-auto px-4 md:px-12">
+      <div ref={ref} className="w-full max-w-[1240px] mx-auto px-6 md:px-12 lg:px-16">
         <motion.div
           style={{
             scale,
