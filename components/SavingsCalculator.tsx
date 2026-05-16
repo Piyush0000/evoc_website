@@ -65,8 +65,8 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-};
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } }
+} as const;
 
 export default function SavingsCalculator({ hideHeader = false }: { hideHeader?: boolean }) {
   const [monthlyOrders, setMonthlyOrders] = useState(500);
