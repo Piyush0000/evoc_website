@@ -7,6 +7,12 @@ import { ArrowLeft, ArrowRight, Calendar, ShieldCheck, User, Phone, ChevronDown,
 import { useState } from 'react';
 import { getPath } from '@/lib/paths';
 
+import FeaturedOn from '@/components/FeaturedOn';
+import CoreFeatures from '@/components/CoreFeatures';
+import ImpactSection from '@/components/ImpactSection';
+import FoundersSection from '@/components/FoundersSection';
+import FooterSection from '@/components/FooterSection';
+
 const REVENUE_LABELS: Record<string, string> = {
   '0-5': '0-5 Lakhs',
   '5-20': '5-20 Lakhs',
@@ -96,7 +102,7 @@ export default function DemoPage() {
   };
 
   return (
-    <main className="bg-black h-screen w-full text-white selection:bg-[#183EEB]/30 overflow-hidden relative font-sans">
+    <main className="bg-black min-h-screen w-full text-white selection:bg-[#183EEB]/30 overflow-x-clip relative font-sans" style={{ overflowX: 'clip' }}>
       {/* Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-[#183EEB]/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 
@@ -111,7 +117,8 @@ export default function DemoPage() {
         </Link>
       </div>
 
-      <div className="h-full max-w-7xl mx-auto px-8 flex items-center">
+      {/* Demo Booking Form Section */}
+      <section className="min-h-screen max-w-7xl mx-auto px-8 flex items-center pt-28 pb-20 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center w-full">
           
           {/* Left Column: Header & Form */}
@@ -290,7 +297,22 @@ export default function DemoPage() {
             </div>
           </motion.div>
         </div>
-      </div>
+      </section>
+
+      {/* Featured On Section */}
+      <FeaturedOn />
+
+      {/* Core Features Section */}
+      <CoreFeatures />
+
+      {/* Impact We Create Section */}
+      <ImpactSection />
+
+      {/* Founders Section */}
+      <FoundersSection />
+
+      {/* Footer Section */}
+      <FooterSection />
 
       {/* Toast Notification */}
       <motion.div

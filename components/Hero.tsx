@@ -120,7 +120,11 @@ export default function Hero() {
               } catch (e) {
                 console.error('Meta Pixel error:', e);
               }
-              router.push('/demo');
+              if (typeof window !== 'undefined' && window.location.pathname === '/demo') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              } else {
+                router.push('/demo');
+              }
             }}
             className="group flex items-center gap-3.5 bg-white/[0.03] backdrop-blur-md border border-white/[0.15] hover:border-blue-500/50 px-8 py-3 rounded-[14px] text-white text-[15px] transition-all hover:bg-white/[0.06] shadow-[0_0_20px_rgba(37,99,235,0.2)] hover:shadow-[0_0_35px_rgba(37,99,235,0.45)] cursor-pointer"
           >

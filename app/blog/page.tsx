@@ -8,6 +8,7 @@ import { getPath } from '@/lib/paths';
 import FooterSection from '@/components/FooterSection';
 import { fetchBlogs, Blog, stripHtmlAndTruncate, getRelativeTime } from '@/lib/api';
 import { useBlogEvents } from '@/lib/useBlogEvents';
+import BlogGate from '@/components/BlogGate';
 
 export default function BlogListPage() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -55,6 +56,7 @@ export default function BlogListPage() {
 
   return (
     <main className="bg-[#030303] min-h-screen text-white selection:bg-blue-600/30 font-sans overflow-x-hidden">
+      <BlogGate />
       <div className="max-w-6xl mx-auto px-6 pt-8">
         {/* Navigation */}
         <div className="flex justify-between items-center mb-24">

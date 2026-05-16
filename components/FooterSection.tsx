@@ -176,7 +176,11 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
                     } catch (e) {
                       console.error('Meta Pixel error:', e);
                     }
-                    router.push('/demo');
+                    if (typeof window !== 'undefined' && window.location.pathname === '/demo') {
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else {
+                      router.push('/demo');
+                    }
                   }}
                   className="w-full bg-[#183EEB] text-white font-bold h-[72px] rounded-2xl flex items-center justify-center gap-3 transition-all cursor-pointer group"
                 >
