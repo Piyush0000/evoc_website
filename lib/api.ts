@@ -10,6 +10,7 @@ export interface Blog {
   slug: string;
   content: string;
   image: string;
+  imageAlt?: string;
   category: string;
   tags: string[];
   author: string;

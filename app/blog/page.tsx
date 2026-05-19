@@ -157,7 +157,7 @@ export default function BlogListPage() {
                       <div className="relative w-full aspect-[16/10] overflow-hidden m-4 rounded-[32px] border border-white/5">
                         <img 
                           src={blog.image || '/blog-placeholder.jpg'} 
-                          alt={blog.title}
+                          alt={blog.imageAlt || `Evoc Labs a software company - ${blog.title}`}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
                       </div>

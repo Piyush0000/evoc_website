@@ -155,7 +155,7 @@ export default function BlogDetailPage() {
         >
           <img
             src={blog.image || '/blog-placeholder.jpg'}
-            alt={blog.title}
+            alt={blog.imageAlt || `Evoc Labs a software company - ${blog.title}`}
             className="w-full h-full object-cover"
           />
         </motion.div>
