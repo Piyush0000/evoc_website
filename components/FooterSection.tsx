@@ -268,7 +268,7 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
 
         <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[13px] text-white/30 font-medium">
-            &copy; 2026 All rights reserved. Evoc Technologies Pvt. Ltd.
+            &copy; 2026 All rights reserved. EVOC LABS PVT LTD.
           </p>
           <div className="flex gap-6 text-[13px] text-white/30">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
