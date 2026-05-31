@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { inter, instrumentSerif, playfair, bodoni } from "@/lib/fonts";
-import Script from "next/script";
 import "./globals.css";
+import Script from 'next/script'
 
 export const metadata: Metadata = {
   title: "EVOC LABS",
@@ -23,10 +23,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-bg-primary">
-      <body 
+      <body
         className={`${inter.variable} ${instrumentSerif.variable} ${playfair.variable} ${bodoni.variable} font-sans antialiased text-text-white selection:bg-brand-blue/30`}
         suppressHydrationWarning
       >
+        {/* Google Ads Tag */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18200923999"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18200923999');
+          `}
+        </Script>
+
         {/* Meta Pixel Code */}
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
@@ -43,7 +57,6 @@ export default function RootLayout({
           `}
         </Script>
         <noscript>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             height="1"
             width="1"
@@ -53,6 +66,7 @@ export default function RootLayout({
           />
         </noscript>
         {/* End Meta Pixel Code */}
+
         {children}
       </body>
     </html>
