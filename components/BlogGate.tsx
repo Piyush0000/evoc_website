@@ -1,12 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, User, ShieldCheck, X, Loader2, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export default function BlogGate() {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -73,7 +71,6 @@ export default function BlogGate() {
 
   const handleClose = () => {
     setIsOpen(false);
-    router.push('/');
   };
 
   return (
