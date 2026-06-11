@@ -153,7 +153,7 @@ export default function BlogListPage() {
                   transition={{ delay: i * 0.1 }}
                   className="group"
                 >
-                  <Link href={`/blog/${blog.slug || blog.id}`}>
+                  <Link href={`/blog/${blog.slug || blog.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`}>
                     <div className="h-full bg-white/[0.02] border border-white/5 rounded-[40px] hover:bg-white/[0.04] hover:border-blue-500/30 transition-all duration-500 shadow-2xl flex flex-col overflow-hidden group">
                       {/* Image container */}
                       <div className="relative w-full aspect-[16/10] overflow-hidden m-4 rounded-[32px] border border-white/5">
