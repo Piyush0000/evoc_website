@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, User, Tag, Clock, RefreshCcw, Check } from 'lucide-react';
 import { getPath } from '@/lib/paths';
 import FooterSection from '@/components/FooterSection';
-import { fetchBlogById, Blog, getRelativeTime } from '@/lib/api';
+import { fetchBlogById, fetchBlogs, Blog, getRelativeTime } from '@/lib/api';
 import { useBlogEvents } from '@/lib/useBlogEvents';
 import BlogGate from '@/components/BlogGate';
 
@@ -21,7 +21,20 @@ export default function BlogDetailPage() {
 
   const loadBlog = async () => {
     try {
-      const data = await fetchBlogById(id);
+      // Try direct lookup first (handles numeric ids and full slugs)
+      let data = await fetchBlogById(id);
+
+      if (!data) {
+        // URL has a clean slug (trailing number stripped) — find the full slug from the list
+        const allBlogs = await fetchBlogs();
+        const match = allBlogs.find(
+          (b) => b.slug && b.slug.replace(/-\d+$/, '') === id
+        );
+        if (match) {
+          data = await fetchBlogById(String(match.slug || match.id));
+        }
+      }
+
       if (data) {
         setBlog(data);
         setError(null);

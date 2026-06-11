@@ -76,9 +76,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const blogPages: MetadataRoute.Sitemap = blogs.map((blog: any) => {
-    const slug =
+    const rawSlug =
       blog.slug ||
       blog.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const slug = rawSlug.replace(/-\d+$/, '');
     return {
       url: `${BASE_URL}/blog/${slug}`,
       lastModified: new Date(blog.updatedAt || blog.createdAt || new Date()),
