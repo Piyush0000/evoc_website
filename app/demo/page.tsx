@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Calendar, ShieldCheck, User, Phone, ChevronDown, ShoppingBag, BarChart3, CheckCircle2, Loader2, AlertCircle, Upload, IndianRupee, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, ShieldCheck, User, Phone, ChevronDown, ShoppingBag, BarChart3, CheckCircle2, Loader2, AlertCircle, IndianRupee, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
 import { getPath } from '@/lib/paths';
 
@@ -31,8 +31,6 @@ const initialForm = {
 
 export default function DemoPage() {
   const [form, setForm] = useState(initialForm);
-  const [productImage, setProductImage] = useState<File | null>(null);
-  const [productImagePreview, setProductImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showToast, setShowToast] = useState(false);
@@ -42,17 +40,6 @@ export default function DemoPage() {
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setProductImage(file);
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setProductImagePreview(url);
-    } else {
-      setProductImagePreview(null);
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -70,15 +57,6 @@ export default function DemoPage() {
     }
 
     try {
-      let productImageBase64 = '';
-      if (productImage) {
-        productImageBase64 = await new Promise<string>((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.readAsDataURL(productImage);
-        });
-      }
-
       const response = await fetch(`${apiBase}/leads`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -89,7 +67,6 @@ export default function DemoPage() {
           revenueRange: REVENUE_LABELS[form.revenueRange] || form.revenueRange,
           averageOrderValue: form.averageOrderValue,
           monthlyAdsSpend: form.monthlyAdsSpend,
-          ...(productImageBase64 && { productImage: productImageBase64 }),
           formType: 'book-demo',
         }),
       });
@@ -114,8 +91,6 @@ export default function DemoPage() {
       }
 
       setForm(initialForm);
-      setProductImage(null);
-      setProductImagePreview(null);
       setShowToast(true);
       setTimeout(() => setShowToast(false), 4000);
     } catch (err: any) {
@@ -253,38 +228,7 @@ export default function DemoPage() {
                 </div>
               </div>
 
-              {/* Product Image Upload */}
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-widest text-white/30 ml-1">
-                  Upload Pic of Your Product
-                </label>
-                <label className={`relative group flex flex-col items-center justify-center gap-3 w-full rounded-xl border border-dashed transition-all cursor-pointer py-5 px-4 ${productImagePreview ? 'border-[#183EEB]/50 bg-[#183EEB]/5' : 'border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.05]'}`}>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    disabled={loading}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  />
-                  {productImagePreview ? (
-                    <div className="flex items-center gap-3 w-full">
-                      <img src={productImagePreview} alt="Product preview" className="w-12 h-12 rounded-lg object-cover border border-white/10 shrink-0" />
-                      <div className="min-w-0">
-                        <p className="text-xs font-medium text-white/70 truncate">{productImage?.name}</p>
-                        <p className="text-[10px] text-white/30 mt-0.5">Click to change</p>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <Upload className="w-5 h-5 text-white/20 group-hover:text-white/40 transition-colors" />
-                      <p className="text-xs text-white/30 text-center">
-                        <span className="text-white/50 font-semibold">Click to upload</span> or drag & drop<br />
-                        <span className="text-[10px]">PNG, JPG, WEBP up to 5MB</span>
-                      </p>
-                    </>
-                  )}
-                </label>
-              </div>
+
 
               {/* Average Order Value */}
               <div className="space-y-1.5">
