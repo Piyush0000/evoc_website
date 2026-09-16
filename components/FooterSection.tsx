@@ -1,21 +1,21 @@
 'use client';
 
-import React from 'react';
+import React, { ComponentProps, ReactNode } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { getPath } from '@/lib/paths';
-import { ArrowRight, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Mail, Phone } from 'lucide-react';
 
 const SocialLinks = [
   {
     name: 'Instagram',
-    url: 'https://www.instagram.com/evoclabs.officials?igsh=Y2g2aGltbTY0MDNk',
+    url: 'https://www.instagram.com/evoclabs.official/',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
       </svg>
     )
   },
@@ -24,9 +24,9 @@ const SocialLinks = [
     url: 'https://www.linkedin.com/company/evoc-labs/?viewAsMember=true',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-        <rect x="2" y="9" width="4" height="12"></rect>
-        <circle cx="4" cy="4" r="2"></circle>
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+        <rect x="2" y="9" width="4" height="12" />
+        <circle cx="4" cy="4" r="2" />
       </svg>
     )
   },
@@ -35,7 +35,7 @@ const SocialLinks = [
     url: 'https://x.com/evoclabz?s=21',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
       </svg>
     )
   },
@@ -44,8 +44,8 @@ const SocialLinks = [
     url: 'https://www.youtube.com/@evoclabs.official',
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path>
-        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z" />
+        <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" />
       </svg>
     )
   }
@@ -84,38 +84,70 @@ const testimonials = [
   }
 ];
 
+type ViewAnimationProps = {
+  delay?: number;
+  className?: ComponentProps<typeof motion.div>['className'];
+  children: ReactNode;
+};
+
+function AnimatedContainer({ className, delay = 0.1, children }: ViewAnimationProps) {
+  const shouldReduceMotion = useReducedMotion();
+
+  if (shouldReduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
+  return (
+    <motion.div
+      initial={{ filter: 'blur(4px)', y: -8, opacity: 0 }}
+      whileInView={{ filter: 'blur(0px)', y: 0, opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }) {
   const router = useRouter();
+
   return (
     <footer className="relative w-full overflow-hidden bg-[#030303]">
+      {/* Ambient background glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-[#183EEB]/10 rounded-full blur-[150px] pointer-events-none z-0" />
-      
-      {/* ─── SECTION 1: CTA & TESTIMONIALS ─── */}
+
+      {/* ─── SECTION 1: CTA & TESTIMONIALS (PRESERVED) ─── */}
       {!hideCTA && (
-        <div id="testimonials" className="max-w-7xl mx-auto px-6 pt-24 pb-6 relative z-10">
+        <div id="testimonials" className="max-w-7xl mx-auto px-6 pt-24 pb-12 relative z-10">
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
+
             {/* Left Column (Testimonials) - 7 columns */}
             <div className="xl:col-span-7 flex flex-col gap-8">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">Trusted by <span className="text-[#183EEB] italic font-serif">forward-thinking</span> brands</h2>
-                <p className="text-white/40 text-sm md:text-base max-w-md font-medium">Join 100+ brands that are scaling their e-commerce operations with EVOC Labs.</p>
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
+                  Trusted by <span className="text-[#183EEB] italic font-serif">forward-thinking</span> brands
+                </h2>
+                <p className="text-white/40 text-sm md:text-base max-w-md font-medium">
+                  Join 100+ brands that are scaling their e-commerce operations with EVOC Labs.
+                </p>
               </motion.div>
-              
+
               <div className="relative mt-4 group">
                 {/* Fade overlays */}
-                <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#030303] to-transparent z-10" />
-                <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#030303] to-transparent z-10" />
-                
+                <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#030303] to-transparent z-10 pointer-events-none" />
+                <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#030303] to-transparent z-10 pointer-events-none" />
+
                 <div className="flex overflow-hidden">
-                  <motion.div 
+                  <motion.div
                     className="flex gap-4 py-4"
                     animate={{ x: ["0%", "-50%"] }}
-                    transition={{ 
+                    transition={{
                       x: {
                         repeat: Infinity,
                         repeatType: "loop",
@@ -123,10 +155,10 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
                         ease: "linear"
                       }
                     }}
-                    whileHover={{ transition: { duration: 80 } }} // Slow down on hover
+                    whileHover={{ transition: { duration: 80 } }}
                   >
                     {[...testimonials, ...testimonials].map((t, i) => (
-                      <div 
+                      <div
                         key={i}
                         className="w-[300px] md:w-[380px] shrink-0 bg-white/[0.02] border border-white/[0.05] hover:border-[#183EEB]/30 rounded-2xl p-6 flex flex-col gap-4 transition-all duration-500"
                       >
@@ -145,7 +177,7 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
             </div>
 
             {/* Right Column (CTA Card) - 5 columns */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -155,16 +187,16 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
               }}
             >
               <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-[250px] h-[150px] bg-[#183EEB]/30 blur-[60px] pointer-events-none" />
-              
+
               <h3 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight relative z-10">
                 Ready to Scale?
               </h3>
               <p className="text-white/60 text-lg md:text-xl mb-10 leading-relaxed relative z-10">
                 Experience the AI-powered commerce operating system in action.
               </p>
-              
+
               <div className="block w-full relative z-10 pointer-events-auto">
-                <motion.div 
+                <motion.div
                   whileHover={{ scale: 1.02, boxShadow: "0 0 40px rgba(24,62,235,0.4)" }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => {
@@ -199,84 +231,179 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
         </div>
       )}
 
-      <div className="w-full max-w-[1440px] mx-auto px-10 md:px-20 mt-16 mb-16 relative z-10">
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      </div>
+      {/* ─── SECTION 2: HIGH-TECH RADIAL BORDER & NAVIGATION ─── */}
+      <div className="relative w-full max-w-7xl mx-auto px-6 pt-16 pb-14 mt-6">
 
-      <div className="max-w-[1440px] mx-auto px-10 md:px-20 pb-20 relative z-10">
-        <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-32">
-          
-          <div className="space-y-6 max-w-[400px]">
-            <div className="flex items-center">
+        {/* Curved Top Border with Horizon Glow Line (Extracted from Design) */}
+        <div className="absolute top-0 left-6 right-6 h-px bg-white/10" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/5 md:w-1/3 h-[2px] bg-gradient-to-r from-transparent via-[#183EEB] to-transparent blur-[1px]" />
+
+        {/* Subtle radial ambient cone from top line */}
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-36 pointer-events-none"
+          style={{
+            background: 'radial-gradient(50% 120px at 50% 0%, rgba(24, 62, 235, 0.12), transparent)'
+          }}
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-8 relative z-10">
+
+          {/* Brand & Identity Column - 5 columns */}
+          <AnimatedContainer delay={0.1} className="lg:col-span-5 space-y-6">
+            <div className="flex items-center gap-3">
               <img
                 src={getPath('/logo.png')}
-                alt="Logo"
-                width={48}
-                height={48}
+                alt="Evoc Labs Logo"
+                width={42}
+                height={42}
                 className="object-contain brightness-[3] grayscale"
-                style={{ width: '48px', height: '48px' }}
+                style={{ width: '42px', height: '42px' }}
               />
+              <span className="text-xl font-bold tracking-tight text-white">
+                Evoc <span className="text-[#183EEB]">Labs</span>
+              </span>
             </div>
-            <p className="text-[14px] leading-[1.6]" style={{ color: 'rgba(255,255,255,0.75)' }}>
+
+            <p className="text-[14px] leading-relaxed text-white/70 max-w-sm">
               Evoc Labs is an AI-powered platform that runs your entire e-commerce business—from store to ads to orders in one place.
             </p>
-            <div className="space-y-2 pt-2">
-              <p className="text-[14px]" style={{ color: 'rgba(255,255,255,0.85)' }}>+91 9548833953</p>
-              <p className="text-[14px]" style={{ color: 'rgba(255,255,255,0.85)' }}>contact@evoclabs.com</p>
+
+            <div className="space-y-2 pt-1 text-[13px] text-white/80">
+              <p className="flex items-center gap-2.5">
+                <Phone className="w-3.5 h-3.5 text-[#183EEB]" />
+                <span>+91 9548833953</span>
+              </p>
+              <p className="flex items-center gap-2.5">
+                <Mail className="w-3.5 h-3.5 text-[#183EEB]" />
+                <span>contact@evoclabs.com</span>
+              </p>
             </div>
-            <div className="flex gap-[10px] pt-4">
+
+            {/* Social Icons */}
+            <div className="flex gap-2.5 pt-2">
               {SocialLinks.map((social, i) => (
-                <a key={i} href={social.url} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-md flex items-center justify-center transition-all bg-white/[0.06] text-white/70 hover:bg-white/[0.12] hover:text-white">
+                <a
+                  key={i}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={social.name}
+                  className="w-9 h-9 rounded-xl flex items-center justify-center transition-all bg-white/[0.04] border border-white/[0.08] text-white/70 hover:bg-[#183EEB]/20 hover:border-[#183EEB]/40 hover:text-white hover:scale-105"
+                >
                   <social.icon width={16} height={16} />
                 </a>
               ))}
             </div>
-          </div>
+          </AnimatedContainer>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-12 lg:gap-24">
-            <div>
-              <h4 className="text-[14px] font-bold uppercase tracking-[0.1em] mb-[22px]" style={{ color: 'rgba(255,255,255,0.55)' }}>EVOC LABS</h4>
-              <ul className="space-y-[14px]">
-                <li><Link href="/#brands" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Brands we have worked</Link></li>
-                <li><Link href="/#testimonials" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Testimonials</Link></li>
-                <li><Link href="/#impact" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Pricing Structure</Link></li>
-                <li><a href="https://www.unstoppableindia.net/post/how-evoc-labs-scaled-a-brand-from-32-lakhs-month-to-1-crore-month-in-just-30-days" target="_blank" rel="noopener noreferrer" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Blogs</a></li>
-              </ul>
-            </div>
+          {/* Nav Categories Column - 7 columns */}
+          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12">
 
-            <div>
-              <h4 className="text-[14px] font-bold uppercase tracking-[0.1em] mb-[22px]" style={{ color: 'rgba(255,255,255,0.55)' }}>COMPANY</h4>
-              <ul className="space-y-[14px]">
-                <li><Link href="/" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Home</Link></li>
-                <li><Link href="/about" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">About Us</Link></li>
-                <li><Link href="/careers" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Career</Link></li>
-                <li><a href="mailto:contact@evoclabs.com" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Contact Us</a></li>
-                <li><a href="https://app.evoclabs.com/" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Login</a></li>
+            {/* EVOC LABS */}
+            <AnimatedContainer delay={0.2}>
+              <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-[#183EEB] mb-5">
+                EVOC LABS
+              </h4>
+              <ul className="space-y-3.5 text-sm">
+                <li>
+                  <Link href="/#brands" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    Brands we worked with
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/#testimonials" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    Testimonials
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/#impact" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    Pricing Structure
+                  </Link>
+                </li>
+                <li>
+                  <a href="https://www.unstoppableindia.net/post/how-evoc-labs-scaled-a-brand-from-32-lakhs-month-to-1-crore-month-in-just-30-days" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    Case Studies & Blog
+                  </a>
+                </li>
               </ul>
-            </div>
+            </AnimatedContainer>
 
-            <div>
-              <h4 className="text-[14px] font-bold uppercase tracking-[0.1em] mb-[22px]" style={{ color: 'rgba(255,255,255,0.55)' }}>LEGALITIES</h4>
-              <ul className="space-y-[14px]">
-                <li><Link href="/privacy" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Privacy Policy</Link></li>
-                <li><Link href="/terms" className="text-[15px] text-white hover:text-[#183EEB] transition-colors">Terms of Service</Link></li>
+            {/* COMPANY */}
+            <AnimatedContainer delay={0.3}>
+              <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-[#183EEB] mb-5">
+                COMPANY
+              </h4>
+              <ul className="space-y-3.5 text-sm">
+                <li>
+                  <Link href="/" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/careers" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    Careers
+                  </Link>
+                </li>
+                <li>
+                  <a href="mailto:contact@evoclabs.com" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    Contact Us
+                  </a>
+                </li>
+                <li>
+                  <a href="https://app.evoclabs.com/" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-[#183EEB] hover:translate-x-1 inline-flex items-center gap-1 transition-all duration-300 font-semibold">
+                    Login Portal →
+                  </a>
+                </li>
               </ul>
-            </div>
+            </AnimatedContainer>
+
+            {/* LEGALITIES */}
+            <AnimatedContainer delay={0.4}>
+              <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-[#183EEB] mb-5">
+                LEGALITIES
+              </h4>
+              <ul className="space-y-3.5 text-sm">
+                <li>
+                  <Link href="/privacy" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    Terms of Service
+                  </Link>
+                </li>
+              </ul>
+            </AnimatedContainer>
+
           </div>
 
         </div>
 
-        <div className="mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-[13px] text-white/30 font-medium">
-            &copy; 2026 All rights reserved. EVOC LABS PVT LTD.
+        {/* ─── BOTTOM COPYRIGHT BAR ─── */}
+        <AnimatedContainer delay={0.5} className="mt-14 pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-white/40">
+          <p>
+            &copy; {new Date().getFullYear()} EVOC LABS PVT LTD. All rights reserved.
           </p>
-          <div className="flex gap-6 text-[13px] text-white/30">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy" className="hover:text-white/80 transition-colors">
+              Privacy
+            </Link>
+            <Link href="/terms" className="hover:text-white/80 transition-colors">
+              Terms
+            </Link>
+            <a href="mailto:contact@evoclabs.com" className="hover:text-white/80 transition-colors">
+              Support
+            </a>
           </div>
-        </div>
-      </div>
+        </AnimatedContainer>
 
+      </div>
     </footer>
   );
 }

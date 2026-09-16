@@ -5,16 +5,16 @@ import { motion, useInView } from 'framer-motion';
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
-const Counter = ({ 
-  value, 
-  duration = 2000, 
-  delay = 300, 
-  prefix = '', 
+const Counter = ({
+  value,
+  duration = 2000,
+  delay = 300,
+  prefix = '',
   suffix = '',
   format = false
-}: { 
-  value: number; 
-  duration?: number; 
+}: {
+  value: number;
+  duration?: number;
   delay?: number;
   prefix?: string;
   suffix?: string;
@@ -57,9 +57,9 @@ const Counter = ({
 export default function OrdersStatSection() {
   return (
     <section className="relative w-full h-screen bg-black overflow-hidden flex flex-col items-center">
-      
+
       {/* ─── BACKGROUND GLOWS ─── */}
-      <div 
+      <div
         className="absolute inset-0 z-0 pointer-events-none"
         style={{
           background: `
@@ -75,25 +75,25 @@ export default function OrdersStatSection() {
         <svg viewBox="0 0 1920 800" preserveAspectRatio="none" className="w-full h-full overflow-visible">
           <defs>
             <radialGradient id="domeFill" cx="50%" cy="100%" r="80%">
-              <stop offset="0%" stopColor="#0a3a8a" stopOpacity="0.9"/>
-              <stop offset="60%" stopColor="#001a4d" stopOpacity="0.7"/>
-              <stop offset="100%" stopColor="#000814" stopOpacity="0"/>
+              <stop offset="0%" stopColor="#0a3a8a" stopOpacity="0.9" />
+              <stop offset="60%" stopColor="#001a4d" stopOpacity="0.7" />
+              <stop offset="100%" stopColor="#000814" stopOpacity="0" />
             </radialGradient>
 
             <linearGradient id="rimGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%"  stopColor="#1e90ff" stopOpacity="0.4"/>
-              <stop offset="50%" stopColor="#87ceeb" stopOpacity="1"/>
-              <stop offset="100%" stopColor="#1e90ff" stopOpacity="0.4"/>
+              <stop offset="0%" stopColor="#1e90ff" stopOpacity="0.4" />
+              <stop offset="50%" stopColor="#87ceeb" stopOpacity="1" />
+              <stop offset="100%" stopColor="#1e90ff" stopOpacity="0.4" />
             </linearGradient>
 
             <filter id="bigGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="35"/>
+              <feGaussianBlur stdDeviation="35" />
             </filter>
             <filter id="midGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="14"/>
+              <feGaussianBlur stdDeviation="14" />
             </filter>
             <filter id="smallGlow" x="-10%" y="-10%" width="120%" height="120%">
-              <feGaussianBlur stdDeviation="3"/>
+              <feGaussianBlur stdDeviation="3" />
             </filter>
           </defs>
 
@@ -112,9 +112,9 @@ export default function OrdersStatSection() {
               30vh + (0.25 * 70vh) = 30 + 17.5 = 47.5vh. (Perfect!)
           */}
 
-          <ellipse cx="960" cy="900" rx="1500" ry="700" fill="url(#domeFill)"/>
+          <ellipse cx="960" cy="900" rx="1500" ry="700" fill="url(#domeFill)" />
 
-          <motion.ellipse 
+          <motion.ellipse
             animate={{ opacity: [0.35, 0.55, 0.35] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             cx="960" cy="900" rx="1500" ry="700"
@@ -122,7 +122,7 @@ export default function OrdersStatSection() {
             filter="url(#bigGlow)"
           />
 
-          <motion.ellipse 
+          <motion.ellipse
             animate={{ opacity: [0.6, 0.8, 0.6] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
             cx="960" cy="900" rx="1500" ry="700"
@@ -132,11 +132,11 @@ export default function OrdersStatSection() {
 
           <ellipse cx="960" cy="900" rx="1500" ry="700"
             fill="none" stroke="#aad4ff" strokeWidth="6"
-            opacity="0.7" filter="url(#smallGlow)"/>
+            opacity="0.7" filter="url(#smallGlow)" />
 
           <ellipse cx="960" cy="900" rx="1500" ry="700"
             fill="none" stroke="url(#rimGrad)" strokeWidth="1.5"
-            opacity="1"/>
+            opacity="1" />
         </svg>
 
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none z-10" />
@@ -144,23 +144,23 @@ export default function OrdersStatSection() {
 
       {/* ─── CENTER STACK ─── */}
       {/* Positioned to sit on the rim at ~47.5% height */}
-      <div 
+      <div
         className="absolute bottom-[52.5%] left-1/2 -translate-x-1/2 z-[10] flex flex-col items-center gap-2 text-center"
       >
-        <div 
+        <div
           className="italic text-[#e8eef5] tracking-tight leading-none mb-16"
-          style={{ 
-            fontFamily: 'var(--font-instrument), serif', 
+          style={{
+            fontFamily: 'var(--font-instrument), serif',
             fontSize: 'clamp(32px, 4vw, 56px)'
           }}
         >
           Orders
         </div>
-        <div 
+        <div
           className="leading-[0.85] tracking-tighter"
           style={{
             fontFamily: 'var(--font-inter), sans-serif',
-            fontSize: 'clamp(100px, 12vw, 160px)',
+            fontSize: 'clamp(64px, 11vw, 155px)',
             fontWeight: 200,
             color: '#ffffff',
             textShadow: `
@@ -174,23 +174,23 @@ export default function OrdersStatSection() {
             letterSpacing: '-0.04em'
           }}
         >
-          <Counter value={1284} duration={2500} format={true} />
+          <Counter value={20000} duration={2500} format={true} suffix="+" />
         </div>
       </div>
 
       {/* ─── STATS & BADGE (SIT INSIDE THE DOME) ─── */}
-      <div 
+      <div
         className="absolute bottom-[20%] left-1/2 -translate-x-1/2 z-[20] flex flex-col items-center gap-10 w-full max-w-5xl px-6"
       >
         {/* Growth Badge */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5, duration: 1 }}
         >
           <div className="bg-[#050A30]/40 backdrop-blur-xl border border-white/10 px-5 py-2 rounded-full text-[12px] font-medium text-white/70 flex items-center gap-2 shadow-2xl">
-            <span className="text-green-400">↗</span> 
+            <span className="text-green-400">↗</span>
             <span>+24.5% from last month</span>
           </div>
         </motion.div>
@@ -198,51 +198,51 @@ export default function OrdersStatSection() {
         {/* Stat Cards Container */}
         <div className="flex flex-col md:flex-row gap-6 md:gap-8 w-full max-w-4xl justify-center">
           {/* Revenue Card */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="flex-1 bg-[#050A30]/30 backdrop-blur-2xl border border-white/10 rounded-[24px] p-5 md:p-6 flex items-center gap-4 md:gap-5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] group hover:border-blue-500/30 transition-all duration-500"
           >
-             <div className="w-11 h-11 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-400 border border-blue-500/20 group-hover:bg-blue-600/20 transition-all shadow-[0_0_20px_rgba(37,99,235,0.1)]">
-               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                 <circle cx="12" cy="12" r="10" /><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" /><path d="M12 18V6" />
-               </svg>
-             </div>
-             <div className="text-left">
-               <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mb-0.5">REVENUE</p>
-               <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tighter mb-1">
-                 <Counter value={84} duration={2000} prefix="₹" suffix="k" />
-               </h3>
-               <p className="text-[11px] text-green-400 flex items-center gap-1 font-semibold">
-                 <span className="text-sm">↑</span> +16.8% <span className="text-white/20 font-medium ml-1">last month</span>
-               </p>
-             </div>
+            <div className="w-11 h-11 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-400 border border-blue-500/20 group-hover:bg-blue-600/20 transition-all shadow-[0_0_20px_rgba(37,99,235,0.1)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" /><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" /><path d="M12 18V6" />
+              </svg>
+            </div>
+            <div className="text-left">
+              <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mb-0.5">REVENUE</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tighter mb-1">
+                <Counter value={70} duration={2000} prefix="₹" suffix="L+" />
+              </h3>
+              <p className="text-[11px] text-green-400 flex items-center gap-1 font-semibold">
+                <span className="text-sm">↑</span> +16.8% <span className="text-white/20 font-medium ml-1">last month</span>
+              </p>
+            </div>
           </motion.div>
 
           {/* AI Tasks Card */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="flex-1 bg-[#050A30]/30 backdrop-blur-2xl border border-white/10 rounded-[24px] p-5 md:p-6 flex items-center gap-4 md:gap-5 shadow-[0_20px_50px_rgba(0,0,0,0.5)] group hover:border-blue-500/30 transition-all duration-500"
           >
-             <div className="w-11 h-11 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-400 border border-blue-500/20 group-hover:bg-blue-600/20 transition-all shadow-[0_0_20px_rgba(37,99,235,0.1)]">
-               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                 <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
-               </svg>
-             </div>
-             <div className="text-left">
-               <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mb-0.5">AI TASKS</p>
-               <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tighter mb-1">
-                 <Counter value={12} duration={1500} />
-               </h3>
-               <p className="text-[11px] text-green-400 flex items-center gap-1 font-semibold">
-                 <span className="text-sm">↑</span> +33.3% <span className="text-white/20 font-medium ml-1">last month</span>
-               </p>
-             </div>
+            <div className="w-11 h-11 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-400 border border-blue-500/20 group-hover:bg-blue-600/20 transition-all shadow-[0_0_20px_rgba(37,99,235,0.1)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+              </svg>
+            </div>
+            <div className="text-left">
+              <p className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mb-0.5">AI TASKS</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tighter mb-1">
+                <Counter value={55} duration={1500} suffix="+" />
+              </h3>
+              <p className="text-[11px] text-green-400 flex items-center gap-1 font-semibold">
+                <span className="text-sm">↑</span> +33.3% <span className="text-white/20 font-medium ml-1">last month</span>
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>

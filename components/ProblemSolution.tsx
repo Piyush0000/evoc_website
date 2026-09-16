@@ -2,20 +2,7 @@
 
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-
-const problemItems = [
-  "5 tools for ads",
-  "Manual logistics",
-  "No automation",
-  "Scattered platform data"
-];
-
-const solutionItems = [
-  "Unified ads engine",
-  "Built-in logistics system",
-  "AI automation native",
-  "Single source of truth"
-];
+import Image from 'next/image';
 
 export default function ProblemSolution() {
   const containerRef = React.useRef(null);
@@ -24,28 +11,28 @@ export default function ProblemSolution() {
     offset: ["start end", "end start"]
   });
 
-  const cardsY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const cardsY = useTransform(scrollYProgress, [0, 1], [20, -30]);
 
   return (
     <section 
       ref={containerRef}
-      className="relative w-full py-12 bg-[#000000] overflow-hidden flex flex-col items-center"
+      className="relative w-full py-16 md:py-24 bg-[#000000] overflow-hidden flex flex-col items-center"
       id="problem-solution"
     >
-      {/* LAYER 1: Viewport-Level Edge Glows (Starting outside the screen for maximum realism) */}
+      {/* LAYER 1: Viewport-Level Edge Glows */}
       <div 
         className="absolute inset-0 pointer-events-none z-0"
         style={{
           background: `
-            radial-gradient(1000px at -20% 50%, rgba(37, 99, 235, 0.5), transparent 65%),
-            radial-gradient(1000px at 120% 50%, rgba(37, 99, 235, 0.5), transparent 65%),
+            radial-gradient(1000px at -20% 50%, rgba(37, 99, 235, 0.4), transparent 65%),
+            radial-gradient(1000px at 120% 50%, rgba(37, 99, 235, 0.4), transparent 65%),
             linear-gradient(to bottom, transparent 70%, #000000 100%)
           `,
           filter: 'blur(100px)'
         }}
       />
 
-      {/* LAYER 2: Cinematic Vignette - Darkens edges to create the 'Glow from within' feel */}
+      {/* LAYER 2: Cinematic Vignette */}
       <div 
         className="absolute inset-0 pointer-events-none z-10"
         style={{
@@ -53,119 +40,181 @@ export default function ProblemSolution() {
         }}
       />
 
-      <div className="max-w-6xl w-full px-6 flex flex-col items-center z-10">
-        <div className="relative flex flex-col lg:flex-row items-center justify-center w-full max-w-5xl">
+      <div className="max-w-[1240px] w-full px-4 sm:px-6 flex flex-col items-center z-20">
+        
+        {/* Symmetrical Dual Columns: Problem vs Solution */}
+        <motion.div 
+          style={{ y: cardsY }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 w-full"
+        >
           
-          {/* Problem Card - #00024F */}
-          <motion.div 
-            style={{ y: cardsY }}
-            className="relative z-30 lg:translate-x-12"
-          >
-            <motion.h3 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8 }}
-              className="text-white text-4xl mb-10 italic font-bold"
-              style={{ fontFamily: 'var(--font-instrument), serif' }}
-            >
-              Problem
-            </motion.h3>
+          {/* PROBLEM COLUMN */}
+          <div className="flex flex-col">
             <motion.div 
-              initial={{ opacity: 0, y: 100 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="w-[320px] md:w-[380px] bg-[#00024F] rounded-[30px] p-12 flex flex-col gap-12 shadow-2xl border border-white/5"
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7 }}
+              className="flex items-center gap-3 mb-5 pl-2"
             >
-              {problemItems.map((item, i) => (
-                <div key={i} className="relative flex flex-col items-center">
-                  <motion.p 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.5 + (i * 0.15) }}
-                    className="text-white/80 text-center text-xl font-medium"
-                  >
-                    {item}
-                  </motion.p>
-                  <motion.div 
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.5 + (i * 0.15) }}
-                    className="absolute -bottom-6 w-full h-[1.5px] bg-gradient-to-r from-[#00075E] via-[#FFFFFF] to-[#000559] shadow-[0_0_15px_rgba(255,255,255,0.4)] origin-center"
-                  />
-                </div>
-              ))}
+              <h3 
+                className="text-white italic font-bold tracking-tight"
+                style={{ 
+                  fontFamily: 'var(--font-instrument), serif',
+                  fontSize: 'clamp(34px, 4vw, 48px)'
+                }}
+              >
+                Problem
+              </h3>
             </motion.div>
-          </motion.div>
 
-          {/* Solution Card - #00024F -> #001FAE */}
-          <motion.div 
-            style={{ y: cardsY }}
-            className="relative z-20 lg:-ml-12 mt-16 lg:mt-20 w-full lg:w-auto"
-          >
-            <motion.h3 
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-white text-4xl mb-10 italic font-bold lg:ml-24"
-              style={{ fontFamily: 'var(--font-instrument), serif' }}
-            >
-              Solution
-            </motion.h3>
-            <motion.div 
-              initial={{ opacity: 0, y: 100 }}
+            {/* Problem Card (Before) */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full lg:w-[540px] bg-gradient-to-br from-[#00024F] to-[#001FAE] rounded-[49px] p-14 lg:pl-28 flex flex-col gap-12 shadow-[0_20px_100px_rgba(0,31,174,0.4)] border border-white/10 relative overflow-hidden"
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ 
+                y: -6,
+                scale: 1.012,
+                transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] }
+              }}
+              whileTap={{ scale: 0.99 }}
+              className="relative group overflow-hidden rounded-[24px] md:rounded-[32px] bg-[#07090e] border border-white/10 p-4 sm:p-6 flex flex-col justify-between shadow-2xl transition-colors duration-500 hover:border-red-500/30"
             >
-              {/* Premium Shimmer */}
+              {/* Subtle Red/Amber Core Fracture Glow on Hover */}
+              <motion.div
+                animate={{
+                  opacity: [0.2, 0.4, 0.2],
+                  scale: [1, 1.05, 1],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(239,68,68,0.12)_0%,transparent_70%)] z-0"
+              />
+
+              {/* Card Image Container */}
+              <div className="relative w-full aspect-[4/3] rounded-[18px] md:rounded-[24px] overflow-hidden bg-black/40 z-10 border border-white/5">
+                <Image 
+                  src="/images/problem-solution/problem-infographic.webp"
+                  alt="Fragmented Problem Diagram"
+                  fill
+                  className="object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Bottom Card Footer: Tag */}
+              <div className="relative z-10 flex items-center justify-end mt-4 pt-2 border-t border-white/5">
+                <span className="text-xs md:text-sm font-medium tracking-wider uppercase text-red-400/70 italic flex items-center gap-1.5">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500/60" />
+                  Before
+                </span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* SOLUTION COLUMN */}
+          <div className="flex flex-col">
+            <motion.div 
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="flex items-center gap-3 mb-5 pl-2"
+            >
+              <h3 
+                className="text-white italic font-bold tracking-tight"
+                style={{ 
+                  fontFamily: 'var(--font-instrument), serif',
+                  fontSize: 'clamp(34px, 4vw, 48px)'
+                }}
+              >
+                Solution
+              </h3>
+            </motion.div>
+
+            {/* Solution Card (After) */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+              whileHover={{ 
+                y: -6,
+                scale: 1.012,
+                transition: { duration: 0.35, ease: [0.16, 1, 0.3, 1] }
+              }}
+              whileTap={{ scale: 0.99 }}
+              className="relative group overflow-hidden rounded-[24px] md:rounded-[32px] bg-gradient-to-b from-[#060c1c] to-[#040814] border border-[#183EEB]/30 p-4 sm:p-6 flex flex-col justify-between shadow-[0_10px_50px_rgba(24,62,235,0.15)] transition-all duration-500 hover:border-[#183EEB]/70 hover:shadow-[0_15px_60px_rgba(24,62,235,0.3)]"
+            >
+              {/* Pulsing Cyan/Blue Energy Glow */}
+              <motion.div
+                animate={{
+                  opacity: [0.35, 0.65, 0.35],
+                  scale: [1, 1.08, 1],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(24,62,235,0.22)_0%,transparent_75%)] z-0"
+              />
+
+              {/* Shimmer Light Sweep Effect on Hover */}
               <motion.div 
                 animate={{ x: ['-100%', '200%'] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-12 pointer-events-none"
+                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-400/5 to-transparent skew-x-12 pointer-events-none"
               />
-              
-              {solutionItems.map((item, i) => (
-                <div key={i} className="relative flex flex-col items-center">
-                  <motion.p 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.8 + (i * 0.15) }}
-                    className="text-white text-center text-2xl font-bold tracking-tight"
+
+              {/* Card Image Container */}
+              <div className="relative w-full aspect-[4/3] rounded-[18px] md:rounded-[24px] overflow-hidden bg-[#02050f]/80 z-10 border border-blue-500/20">
+                <Image 
+                  src="/images/problem-solution/solution-infographic.webp"
+                  alt="Unified Solution Platform Diagram"
+                  fill
+                  className="object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  loading="lazy"
+                />
+              </div>
+
+              {/* Bottom Card Footer: Tag with Sparkle Micro-interaction */}
+              <div className="relative z-10 flex items-center justify-end mt-4 pt-2 border-t border-blue-500/10">
+                <span className="text-xs md:text-sm font-medium tracking-wider uppercase text-blue-400 italic flex items-center gap-1.5">
+                  <motion.span
+                    animate={{ rotate: [0, 180, 360], scale: [1, 1.25, 1] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                    className="inline-block text-blue-400"
                   >
-                    {item}
-                  </motion.p>
-                  <motion.div 
-                    initial={{ scaleX: 0 }}
-                    whileInView={{ scaleX: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.8 + (i * 0.15) }}
-                    className="absolute -bottom-6 w-full h-[1.5px] bg-gradient-to-r from-[#00075E] via-[#FFFFFF] to-[#000559] shadow-[0_0_20px_rgba(255,255,255,0.6)] origin-center"
-                  />
-                </div>
-              ))}
+                    ✦
+                  </motion.span>
+                  After
+                </span>
+              </div>
             </motion.div>
-          </motion.div>
-        </div>
+          </div>
+
+        </motion.div>
 
         {/* Bottom Tagline */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: 1.8 }}
-          className="mt-12 text-center"
+          transition={{ duration: 0.9, delay: 0.3 }}
+          className="mt-14 md:mt-18 text-center px-4"
         >
-          <p className="text-white text-3xl md:text-4xl font-bold font-sans tracking-tight leading-tight">
+          <p className="text-white text-2xl sm:text-3xl md:text-4xl font-bold font-sans tracking-tight leading-tight">
             &quot;
             <span 
-              className="italic font-bold mr-3 text-blue-500"
+              className="italic font-bold mr-2 sm:mr-3 text-blue-500"
               style={{ fontFamily: 'var(--font-instrument), serif' }}
             >
               Evoclabs
@@ -173,6 +222,7 @@ export default function ProblemSolution() {
             replaces your entire stack with one system.&quot;
           </p>
         </motion.div>
+
       </div>
     </section>
   );
