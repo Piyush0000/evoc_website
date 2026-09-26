@@ -378,6 +378,11 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
                     Terms of Service
                   </Link>
                 </li>
+                <li>
+                  <Link href="/contract-termination" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
+                    Contract Termination
+                  </Link>
+                </li>
               </ul>
             </AnimatedContainer>
 
@@ -396,6 +401,9 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
             </Link>
             <Link href="/terms" className="hover:text-white/80 transition-colors">
               Terms
+            </Link>
+            <Link href="/contract-termination" className="hover:text-white/80 transition-colors">
+              Contract Termination
             </Link>
             <a href="mailto:contact@evoclabs.com" className="hover:text-white/80 transition-colors">
               Support
