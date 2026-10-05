@@ -12,6 +12,7 @@ import CoreFeatures from '@/components/CoreFeatures';
 import ImpactSection from '@/components/ImpactSection';
 import FoundersSection from '@/components/FoundersSection';
 import FooterSection from '@/components/FooterSection';
+import DateTimePicker from '@/components/DateTimePicker';
 
 const REVENUE_LABELS: Record<string, string> = {
   '0-5': '0-5 Lakhs',
@@ -27,6 +28,7 @@ const initialForm = {
   revenueRange: '',
   averageOrderValue: '',
   monthlyAdsSpend: '',
+  preferredDateTime: '',
 };
 
 export default function DemoPage() {
@@ -67,6 +69,7 @@ export default function DemoPage() {
           revenueRange: REVENUE_LABELS[form.revenueRange] || form.revenueRange,
           averageOrderValue: form.averageOrderValue,
           monthlyAdsSpend: form.monthlyAdsSpend,
+          preferredDateTime: form.preferredDateTime,
           formType: 'book-demo',
         }),
       });
@@ -275,6 +278,13 @@ export default function DemoPage() {
                   <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20 pointer-events-none" />
                 </div>
               </div>
+
+              {/* Select a preferable time and date */}
+              <DateTimePicker
+                value={form.preferredDateTime}
+                onChange={(val) => setForm((prev) => ({ ...prev, preferredDateTime: val }))}
+                disabled={loading}
+              />
 
               {error && (
                 <div className="flex items-start gap-2 text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
