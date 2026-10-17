@@ -1,47 +1,127 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useParams, notFound } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Code2, Target, ShieldCheck, Mail, Briefcase, Sparkles, MapPin, Clock, Check, GraduationCap, ListChecks, Tag, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Code2, Target, ShieldCheck, Briefcase, Sparkles, MapPin, Clock, Check, GraduationCap, ListChecks, Tag, CheckCircle2, Loader2, AlertCircle, UploadCloud, FileText, X } from 'lucide-react';
 import FooterSection from '@/components/FooterSection';
-import { positions } from '@/lib/positions';
+import { CareersError, fetchPosition, submitApplication, type FormField, type Position, type ResumeRules } from '@/lib/careers';
+
+const INPUT_CLASS =
+  'w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all';
+const ERROR_INPUT_CLASS = 'border-red-500/40';
 
 export default function CareerPositionPage() {
-  const params = useParams();
-  const slug = params.slug as string;
+  const params = useParams<{ slug: string }>();
+  const slug = params.slug;
 
-  const pos = positions.find(p => p.slug === slug);
+  const [pos, setPos] = useState<Position | null>(null);
+  const [fields, setFields] = useState<FormField[]>([]);
+  const [resumeRules, setResumeRules] = useState<ResumeRules>({ maxBytes: 5 * 1024 * 1024, accept: ['.pdf', '.doc', '.docx'] });
+  const [loadState, setLoadState] = useState<'loading' | 'ready' | 'missing' | 'error'>('loading');
+  const [loadError, setLoadError] = useState('');
 
+  const [resume, setResume] = useState<File | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [submitError, setSubmitError] = useState('');
 
-  if (!pos) {
-    notFound();
-  }
+  useEffect(() => {
+    let cancelled = false;
+    fetchPosition(slug)
+      .then((data) => {
+        if (cancelled) return;
+        setPos(data.position);
+        setFields(data.fields);
+        setResumeRules(data.resume);
+        setLoadState('ready');
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        if (err instanceof CareersError && err.status === 404) setLoadState('missing');
+        else {
+          setLoadError(err instanceof Error ? err.message : 'Could not load this position.');
+          setLoadState('error');
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    const payload = Object.fromEntries(new FormData(form).entries());
+    const data = new FormData(form);
+    data.set('openingSlug', slug);
+    // Without a file the server still validates everything and reports all problems at once.
+    if (resume) data.set('resume', resume, resume.name);
+    else data.delete('resume');
     setSubmitStatus('submitting');
     setSubmitError('');
+    setFieldErrors({});
     try {
-      const res = await fetch('/api/apply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ position: pos.title, ...payload }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || 'Something went wrong. Please try again.');
+      await submitApplication(data);
       setSubmitStatus('success');
       form.reset();
+      setResume(null);
+      document.getElementById('apply')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (err) {
       setSubmitStatus('error');
       setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+      if (err instanceof CareersError && err.fieldErrors) setFieldErrors(err.fieldErrors);
     }
   };
+
+  const clearError = (key: string) =>
+    setFieldErrors((prev) => {
+      if (!prev[key]) return prev;
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+
+  if (loadState !== 'ready' || !pos) {
+    return (
+      <main className="bg-[#030303] min-h-screen text-white font-sans">
+        <div className="max-w-4xl mx-auto px-6 pt-8 pb-32">
+          <Link
+            href="/careers"
+            className="inline-flex items-center gap-2 text-white/40 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest group mb-24"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            All Positions
+          </Link>
+          <div className="flex flex-col items-center text-center text-white/40">
+            {loadState === 'loading' ? (
+              <>
+                <Loader2 className="w-6 h-6 animate-spin mb-4" />
+                <p className="text-sm">Loading position…</p>
+              </>
+            ) : loadState === 'missing' ? (
+              <>
+                <h1 className="text-3xl font-bold text-white mb-3">This position is no longer open</h1>
+                <p className="text-sm max-w-sm mb-8">It may have been filled. Take a look at our other openings.</p>
+                <Link href="/careers" className="text-white/70 hover:text-white text-sm font-bold underline underline-offset-8">
+                  See open positions
+                </Link>
+              </>
+            ) : (
+              <>
+                <AlertCircle className="w-8 h-8 text-red-300/70 mb-4" />
+                <p className="text-sm max-w-sm mb-6">{loadError}</p>
+                <button onClick={() => location.reload()} className="text-white/70 hover:text-white text-sm font-bold underline underline-offset-8">
+                  Try again
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+        <FooterSection hideCTA={true} />
+      </main>
+    );
+  }
 
   return (
     <main className="bg-[#030303] min-h-screen text-white selection:bg-blue-600/30 font-sans">
@@ -153,33 +233,48 @@ export default function CareerPositionPage() {
               <>
                 <div className="mb-10">
                   <h2 className="text-2xl md:text-3xl font-bold mb-2">Apply for this role</h2>
-                  <p className="text-white/30 text-xs leading-relaxed font-medium">Fill in your details below. Your application is sent directly to our hiring team.</p>
+                  <p className="text-white/30 text-xs leading-relaxed font-medium">Fill in your details and attach your resume. Your application goes straight to our hiring team.</p>
                 </div>
 
-                <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit}>
-                  <div className="space-y-2">
-                    <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Full name *</label>
-                    <input name="fullName" type="text" required placeholder="Your name" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
+                <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={handleSubmit} noValidate>
+                  {/* Honeypot: hidden from people, irresistible to bots. */}
+                  <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+                    <label>
+                      Company website
+                      <input name="company_website" type="text" tabIndex={-1} autoComplete="off" />
+                    </label>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Email *</label>
-                    <input name="email" type="email" required placeholder="you@email.com" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">GitHub *</label>
-                    <input name="github" type="url" required placeholder="https://github.com/username" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Portfolio *</label>
-                    <input name="portfolio" type="url" required placeholder="https://your-portfolio.com" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Resume link *</label>
-                    <input name="resume" type="url" required placeholder="Drive / Notion / PDF link" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Project links *</label>
-                    <input name="projects" type="text" required placeholder="Comma-separated links" className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-sm focus:border-blue-500/50 outline-none transition-all" />
+
+                  <FieldShell id="fullName" label="Full name" required error={fieldErrors.fullName}>
+                    <input id="fullName" name="fullName" type="text" required autoComplete="name" placeholder="Your name"
+                      onChange={() => clearError('fullName')}
+                      className={`${INPUT_CLASS} ${fieldErrors.fullName ? ERROR_INPUT_CLASS : ''}`} />
+                  </FieldShell>
+                  <FieldShell id="email" label="Email" required error={fieldErrors.email}>
+                    <input id="email" name="email" type="email" required autoComplete="email" placeholder="you@email.com"
+                      onChange={() => clearError('email')}
+                      className={`${INPUT_CLASS} ${fieldErrors.email ? ERROR_INPUT_CLASS : ''}`} />
+                  </FieldShell>
+
+                  {fields.map((field) => (
+                    <DynamicField key={field.id} field={field} error={fieldErrors[field.key]} onChange={() => clearError(field.key)} />
+                  ))}
+
+                  <div className="md:col-span-2">
+                    <ResumeUpload
+                      file={resume}
+                      rules={resumeRules}
+                      error={fieldErrors.resume}
+                      onChange={(file, error) => {
+                        setResume(file);
+                        setFieldErrors((prev) => {
+                          const next = { ...prev };
+                          if (error) next.resume = error;
+                          else delete next.resume;
+                          return next;
+                        });
+                      }}
+                    />
                   </div>
 
                   {submitStatus === 'error' && (
@@ -240,6 +335,151 @@ function DetailList({ icon, title, items }: { icon: React.ReactNode; title: stri
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+function FieldShell({ id, label, required, error, help, wide, children }: {
+  id: string;
+  label: string;
+  required?: boolean;
+  error?: string;
+  help?: string | null;
+  wide?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className={`space-y-2 ${wide ? 'md:col-span-2' : ''}`}>
+      <label htmlFor={id} className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">
+        {label}
+        {required ? ' *' : ''}
+      </label>
+      {children}
+      {error ? (
+        <p className="text-red-300 text-xs ml-1" role="alert">{error}</p>
+      ) : help ? (
+        <p className="text-white/30 text-xs ml-1">{help}</p>
+      ) : null}
+    </div>
+  );
+}
+
+function DynamicField({ field, error, onChange }: { field: FormField; error?: string; onChange: () => void }) {
+  const id = `field-${field.key}`;
+  const className = `${INPUT_CLASS} ${error ? ERROR_INPUT_CLASS : ''}`;
+  const common = { id, name: field.key, required: field.required, onChange, 'aria-invalid': Boolean(error) };
+  const wide = field.type === 'textarea';
+  return (
+    <FieldShell id={id} label={field.label} required={field.required} error={error} help={field.helpText} wide={wide}>
+      {field.type === 'textarea' ? (
+        <textarea {...common} rows={4} placeholder={field.placeholder || ''} className={`${className} resize-y`} />
+      ) : field.type === 'select' ? (
+        <select {...common} defaultValue="" className={`${className} appearance-none`}>
+          <option value="" disabled className="bg-[#0b0b0b]">
+            {field.placeholder || 'Select an option'}
+          </option>
+          {field.options.map((option) => (
+            <option key={option} value={option} className="bg-[#0b0b0b]">
+              {option}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <input
+          {...common}
+          type={field.type}
+          placeholder={field.placeholder || ''}
+          inputMode={field.type === 'tel' ? 'tel' : field.type === 'number' ? 'decimal' : undefined}
+          className={className}
+        />
+      )}
+    </FieldShell>
+  );
+}
+
+function formatBytes(bytes: number) {
+  return bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+function ResumeUpload({ file, rules, error, onChange }: {
+  file: File | null;
+  rules: ResumeRules;
+  error?: string;
+  onChange: (file: File | null, error?: string) => void;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [dragging, setDragging] = useState(false);
+  const maxLabel = formatBytes(rules.maxBytes);
+
+  const pick = (candidate: File | undefined) => {
+    if (!candidate) return;
+    const ext = `.${candidate.name.split('.').pop()?.toLowerCase() || ''}`;
+    if (!rules.accept.includes(ext)) {
+      onChange(null, 'Upload your resume as a PDF or Word (.doc/.docx) file.');
+    } else if (candidate.size > rules.maxBytes) {
+      onChange(null, `Your resume must be ${maxLabel} or smaller.`);
+    } else {
+      onChange(candidate);
+    }
+    if (inputRef.current) inputRef.current.value = '';
+  };
+
+  return (
+    <div className="space-y-2">
+      <span className="text-white/60 text-xs font-bold uppercase tracking-widest ml-1">Resume *</span>
+      {file ? (
+        <div className="flex items-center gap-4 bg-blue-500/[0.06] border border-blue-500/25 rounded-2xl px-5 py-4">
+          <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0">
+            <FileText className="w-5 h-5 text-blue-400" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-bold truncate">{file.name}</p>
+            <p className="text-white/40 text-xs">{formatBytes(file.size)} · ready to send</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => onChange(null)}
+            className="w-9 h-9 rounded-xl flex items-center justify-center text-white/40 hover:text-white hover:bg-white/5 transition-colors"
+            aria-label="Remove resume"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragging(true);
+          }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={(e) => {
+            e.preventDefault();
+            setDragging(false);
+            pick(e.dataTransfer.files?.[0]);
+          }}
+          className={`w-full flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-2xl px-6 py-10 transition-colors ${
+            dragging
+              ? 'border-blue-500/60 bg-blue-500/[0.06]'
+              : error
+                ? 'border-red-500/40 bg-red-500/[0.03]'
+                : 'border-white/10 bg-white/[0.02] hover:border-blue-500/40 hover:bg-white/[0.03]'
+          }`}
+        >
+          <UploadCloud className="w-7 h-7 text-blue-400" />
+          <span className="text-sm font-bold">Drop your resume here or <span className="text-blue-400">browse</span></span>
+          <span className="text-white/30 text-xs">PDF, DOC or DOCX · up to {maxLabel}</span>
+        </button>
+      )}
+      <input
+        ref={inputRef}
+        type="file"
+        accept={`${rules.accept.join(',')},application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document`}
+        className="hidden"
+        onChange={(e) => pick(e.target.files?.[0])}
+      />
+      {error && <p className="text-red-300 text-xs ml-1" role="alert">{error}</p>}
     </div>
   );
 }

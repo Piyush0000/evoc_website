@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { positions } from '@/lib/positions';
+import { fetchPositions, type Position } from '@/lib/careers';
 
 const BASE_URL = 'https://www.evoclabs.com';
 
@@ -20,8 +20,16 @@ async function fetchPublishedBlogs() {
   }
 }
 
+async function fetchOpenPositions(): Promise<Position[]> {
+  try {
+    return await fetchPositions({ next: { revalidate: 3600 } } as RequestInit);
+  } catch {
+    return [];
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const blogs = await fetchPublishedBlogs();
+  const [blogs, positions] = await Promise.all([fetchPublishedBlogs(), fetchOpenPositions()]);
 
   const staticPages: MetadataRoute.Sitemap = [
     {

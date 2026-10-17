@@ -1,18 +1,42 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Code2, Rocket, Users, Target, ShieldCheck, Briefcase, Sparkles, MapPin, Clock, ChevronDown, ChevronUp, SearchX, Check, GraduationCap, ListChecks, Tag } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Code2, Rocket, Users, Target, ShieldCheck, Briefcase, Sparkles, MapPin, Clock, ChevronDown, ChevronUp, SearchX, Check, Loader2, AlertCircle, GraduationCap, ListChecks, Tag } from 'lucide-react';
 import { getPath } from '@/lib/paths';
 import FooterSection from '@/components/FooterSection';
-import { positions } from '@/lib/positions';
+import { fetchPositions, type Position } from '@/lib/careers';
 
 export default function CareersPage() {
   const [detailsIndex, setDetailsIndex] = useState<number | null>(null);
   const [activeFilter, setActiveFilter] = useState('All Positions');
+  const [positions, setPositions] = useState<Position[]>([]);
+  const [loadState, setLoadState] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [loadError, setLoadError] = useState('');
 
-  const filters = ['All Positions', 'Tech', 'Marketing', 'Design'];
+  const fetchIntoState = () =>
+    fetchPositions()
+      .then((list) => {
+        setPositions(list);
+        setLoadState('ready');
+      })
+      .catch((err) => {
+        setLoadError(err instanceof Error ? err.message : 'Could not load open positions.');
+        setLoadState('error');
+      });
+
+  useEffect(() => {
+    fetchIntoState();
+  }, []);
+
+  const loadPositions = () => {
+    setLoadState('loading');
+    fetchIntoState();
+  };
+
+  // Filters follow the categories of the openings published from the admin panel.
+  const filters = ['All Positions', ...Array.from(new Set(positions.map((p) => p.category).filter(Boolean)))];
 
   const whyWorkItems = [
     {
@@ -149,7 +173,35 @@ export default function CareersPage() {
 
           <div className="max-w-4xl mx-auto">
             <AnimatePresence mode="wait">
-              {filteredPositions.length > 0 ? (
+              {loadState === 'loading' ? (
+                <motion.div
+                  key="positions-loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="py-32 flex flex-col items-center justify-center text-white/30"
+                >
+                  <Loader2 className="w-6 h-6 animate-spin mb-4" />
+                  <p className="text-sm">Loading open positions…</p>
+                </motion.div>
+              ) : loadState === 'error' ? (
+                <motion.div
+                  key="positions-error"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="bg-white/[0.02] border border-white/5 rounded-[40px] py-24 flex flex-col items-center justify-center text-center px-6"
+                >
+                  <AlertCircle className="w-8 h-8 text-red-300/70 mb-4" />
+                  <p className="text-white/50 text-sm max-w-sm mb-6">{loadError}</p>
+                  <button
+                    onClick={loadPositions}
+                    className="text-white/70 hover:text-white text-sm font-bold underline underline-offset-8 transition-colors"
+                  >
+                    Try again
+                  </button>
+                </motion.div>
+              ) : filteredPositions.length > 0 ? (
                 <motion.div
                   key="positions-list"
                   initial={{ opacity: 0, y: 10 }}
