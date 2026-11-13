@@ -236,7 +236,7 @@ export default function DemoPage() {
                 Interactive Free Demo
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tighter mb-4 leading-[1.05]">
-                Start building your own <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-[#183EEB] to-indigo-400">online brand today!</span>
+                Launch your brand at <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-[#183EEB] to-indigo-400">0 cost</span>
               </h1>
               <p className="text-white/60 text-sm md:text-base max-w-md leading-relaxed font-normal">
                 Want to start selling through your own website? Book a free demo to know how our AI ecosystem scales your business.
