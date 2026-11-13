@@ -25,6 +25,7 @@ import ImpactSection from '@/components/ImpactSection';
 import FoundersSection from '@/components/FoundersSection';
 import FooterSection from '@/components/FooterSection';
 import DateTimePicker from '@/components/DateTimePicker';
+import BrandVideoEmbed from '@/components/BrandVideoEmbed';
 
 const PRODUCT_CATEGORIES = [
   'Fashion & Apparel',
@@ -173,8 +174,11 @@ export default function DemoPage() {
       }
 
       // Success
-      setSubmittedName(name.trim());
-      setSubmittedPhone(phoneNumber.replace(/\D/g, '').slice(-10));
+      const finalizedName = name.trim();
+      const finalizedPhone = phoneNumber.replace(/\D/g, '').slice(-10);
+
+      setSubmittedName(finalizedName);
+      setSubmittedPhone(finalizedPhone);
       setIsModalOpen(false);
       setShowSuccessModal(true);
 
@@ -219,7 +223,7 @@ export default function DemoPage() {
       </div>
 
       {/* Demo Booking Form Section */}
-      <section className="min-h-screen max-w-7xl mx-auto px-6 sm:px-8 flex items-center pt-28 pb-20 relative z-20">
+      <section className="min-h-screen max-w-7xl mx-auto px-5 sm:px-8 flex items-center pt-28 pb-20 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
           
           {/* Left Column: Two-Step Booking Form Card */}
@@ -266,7 +270,7 @@ export default function DemoPage() {
                       }}
                       placeholder="Enter your name"
                       required
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-sm placeholder:text-white/25 text-white"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-base sm:text-sm placeholder:text-white/25 text-white"
                     />
                   </div>
                 </div>
@@ -294,7 +298,7 @@ export default function DemoPage() {
                         placeholder="Enter valid 10-digit phone number"
                         required
                         maxLength={10}
-                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-sm placeholder:text-white/25 text-white"
+                        className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3.5 pl-12 pr-4 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-base sm:text-sm placeholder:text-white/25 text-white"
                       />
                     </div>
                   </div>
@@ -338,7 +342,7 @@ export default function DemoPage() {
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#183EEB] to-[#2555ff] hover:from-[#2049fa] hover:to-[#3865ff] text-white font-bold py-4 rounded-xl shadow-[0_10px_35px_rgba(24,62,235,0.35)] hover:shadow-[0_12px_45px_rgba(24,62,235,0.5)] transition-all group text-sm uppercase tracking-wider"
+                    className="w-full min-h-[48px] flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#183EEB] to-[#2555ff] hover:from-[#2049fa] hover:to-[#3865ff] text-white font-bold py-4 rounded-xl shadow-[0_10px_35px_rgba(24,62,235,0.35)] hover:shadow-[0_12px_45px_rgba(24,62,235,0.5)] transition-all group text-sm uppercase tracking-wider"
                   >
                     Get Started
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -400,7 +404,7 @@ export default function DemoPage() {
       {/* STEP 2 MODAL: Additional Info to assist you better */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+          <div className="fixed inset-0 z-[120] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
             {/* Backdrop Blur */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -416,24 +420,24 @@ export default function DemoPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.94, y: 15 }}
               transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-lg bg-[#0e0f15] border border-white/15 rounded-3xl p-6 sm:p-8 shadow-[0_25px_70px_rgba(0,0,0,0.85)] z-10 text-white my-auto overflow-hidden"
+              className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#0e0f15] border border-white/15 rounded-3xl p-5 sm:p-8 shadow-[0_25px_70px_rgba(0,0,0,0.85)] z-10 text-white my-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Top Accent Line */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#183EEB] to-transparent" />
+              <div className="sticky top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#183EEB] to-transparent" />
 
               {/* Close Button */}
               <button
                 type="button"
                 onClick={() => !loading && setIsModalOpen(false)}
-                className="absolute top-5 right-5 p-2 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-white/50 hover:text-white transition-colors"
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-white/50 hover:text-white transition-colors"
                 aria-label="Close modal"
               >
                 <X className="w-4 h-4" />
               </button>
 
               {/* Modal Header */}
-              <div className="mb-6 pr-8">
+              <div className="mb-5 pr-8">
                 <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white mb-1.5">
                   Additional Info to assist you better
                 </h2>
@@ -446,7 +450,7 @@ export default function DemoPage() {
               </div>
 
               {/* Step 2 Form */}
-              <form onSubmit={handleFinalSubmit} className="space-y-4 sm:space-y-5">
+              <form onSubmit={handleFinalSubmit} className="space-y-4">
                 {/* 1. Do you have a GST? */}
                 <div className="space-y-2">
                   <label className="text-[11px] font-bold uppercase tracking-wider text-white/60 block">
@@ -461,14 +465,14 @@ export default function DemoPage() {
                           setHasGst(option);
                           if (stepTwoError) setStepTwoError(null);
                         }}
-                        className={`py-3 px-2 rounded-xl text-xs font-semibold border transition-all text-center flex items-center justify-center gap-1.5 ${
+                        className={`py-3 px-2 rounded-xl text-[11px] sm:text-xs font-semibold border transition-all text-center flex items-center justify-center gap-1.5 min-h-[44px] ${
                           hasGst === option
                             ? 'bg-[#183EEB]/20 border-[#183EEB] text-white shadow-[0_0_15px_rgba(24,62,235,0.3)]'
                             : 'bg-white/[0.03] border-white/10 text-white/60 hover:text-white hover:bg-white/[0.06]'
                         }`}
                       >
                         <span
-                          className={`w-2.5 h-2.5 rounded-full border transition-all ${
+                          className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border shrink-0 transition-all ${
                             hasGst === option
                               ? 'bg-[#183EEB] border-white ring-2 ring-[#183EEB]/40'
                               : 'border-white/30'
@@ -493,7 +497,7 @@ export default function DemoPage() {
                         if (stepTwoError) setStepTwoError(null);
                       }}
                       required
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3 pl-4 pr-10 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-sm appearance-none cursor-pointer text-white"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3 pl-4 pr-10 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-base sm:text-sm appearance-none cursor-pointer text-white"
                     >
                       <option value="" disabled className="bg-[#0e0f15] text-white/40">
                         Select Category
@@ -521,7 +525,7 @@ export default function DemoPage() {
                         if (stepTwoError) setStepTwoError(null);
                       }}
                       required
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3 pl-4 pr-10 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-sm appearance-none cursor-pointer text-white"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3 pl-4 pr-10 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-base sm:text-sm appearance-none cursor-pointer text-white"
                     >
                       <option value="" disabled className="bg-[#0e0f15] text-white/40">
                         Select Channel
@@ -549,7 +553,7 @@ export default function DemoPage() {
                         if (stepTwoError) setStepTwoError(null);
                       }}
                       required
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3 pl-4 pr-10 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-sm appearance-none cursor-pointer text-white"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3 pl-4 pr-10 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-base sm:text-sm appearance-none cursor-pointer text-white"
                     >
                       <option value="" disabled className="bg-[#0e0f15] text-white/40">
                         Select Monthly Revenue
@@ -582,7 +586,7 @@ export default function DemoPage() {
                       value={productLink}
                       onChange={(e) => setProductLink(e.target.value)}
                       placeholder="e.g. https://yourbrand.com or Instagram / Shopify link"
-                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-sm placeholder:text-white/25 text-white"
+                      className="w-full bg-white/[0.04] border border-white/10 rounded-xl py-3 pl-11 pr-4 focus:border-[#183EEB] focus:bg-white/[0.07] outline-none transition-all text-base sm:text-sm placeholder:text-white/25 text-white"
                     />
                   </div>
                 </div>
@@ -618,7 +622,7 @@ export default function DemoPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#183EEB] to-[#2555ff] hover:from-[#2049fa] hover:to-[#3865ff] text-white font-bold py-4 rounded-xl shadow-[0_10px_35px_rgba(24,62,235,0.35)] transition-all text-sm uppercase tracking-wider disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full min-h-[48px] flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#183EEB] to-[#2555ff] hover:from-[#2049fa] hover:to-[#3865ff] text-white font-bold py-3.5 sm:py-4 rounded-xl shadow-[0_10px_35px_rgba(24,62,235,0.35)] transition-all text-sm uppercase tracking-wider disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {loading ? (
                       <>
@@ -636,10 +640,11 @@ export default function DemoPage() {
         )}
       </AnimatePresence>
 
-      {/* SUCCESS CONFIRMATION MODAL */}
+      {/* THANK YOU / SUCCESS CONFIRMATION MODAL POP-UP WITH EMBEDDED BRAND VIDEO */}
       <AnimatePresence>
         {showSuccessModal && (
-          <div className="fixed inset-0 z-[130] flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-[130] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -647,35 +652,55 @@ export default function DemoPage() {
               onClick={() => setShowSuccessModal(false)}
               className="fixed inset-0 bg-black/85 backdrop-blur-xl"
             />
+
+            {/* Modal Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.94, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-md bg-[#0e0f15] border border-white/20 rounded-3xl p-8 shadow-2xl z-10 text-center text-white"
+              exit={{ opacity: 0, scale: 0.94, y: 15 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-2xl max-h-[92vh] overflow-y-auto bg-[#0d0e14]/95 border border-white/15 rounded-3xl p-5 sm:p-7 shadow-[0_25px_80px_rgba(0,0,0,0.9)] z-10 text-white my-auto overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="w-16 h-16 bg-[#183EEB]/20 border border-[#183EEB]/40 rounded-2xl flex items-center justify-center mx-auto mb-5 text-[#6085ff] shadow-lg shadow-blue-600/20">
-                <CheckCircle2 className="w-8 h-8" />
+              {/* Top Accent Gradient Line */}
+              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#183EEB] to-transparent" />
+
+              {/* Ambient Blue Backlight */}
+              <div className="absolute top-6 left-1/2 -translate-x-1/2 w-80 h-32 bg-[#183EEB]/15 blur-[80px] rounded-full pointer-events-none -z-0" />
+
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setShowSuccessModal(false)}
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 hover:border-white/20 text-white/50 hover:text-white transition-all z-20 group"
+                aria-label="Close thank you modal"
+              >
+                <X className="w-4 h-4 group-hover:scale-110 transition-transform" />
+              </button>
+
+              {/* Header Badge & Title */}
+              <div className="text-center max-w-lg mx-auto mb-5 relative z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-[11px] font-bold tracking-wider uppercase mb-2.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  Slot Confirmed • Within 24h
+                </div>
+
+                <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-2">
+                  Thank you, <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-[#183EEB] to-indigo-400">{submittedName}</span>!
+                </h3>
+
+                <p className="text-white/60 text-xs sm:text-sm leading-relaxed">
+                  We&apos;ve registered your booking. Our specialist will connect with you on{' '}
+                  <span className="font-semibold text-white font-mono bg-white/[0.06] px-1.5 py-0.5 rounded border border-white/10 text-xs">
+                    +91 {submittedPhone}
+                  </span>{' '}
+                  to conduct your customized walkthrough.
+                </p>
               </div>
-              <h3 className="text-2xl font-bold tracking-tight mb-2">
-                Demo Request Confirmed!
-              </h3>
-              <p className="text-white/60 text-sm leading-relaxed mb-6">
-                Thank you <span className="font-semibold text-white">{submittedName}</span>! We&apos;ve registered your booking. Our specialist will connect with you on <span className="font-semibold text-[#6085ff]">+91 {submittedPhone}</span> within 24 hours to conduct your customized walkthrough.
-              </p>
-              <div className="flex flex-col gap-3">
-                <button
-                  type="button"
-                  onClick={() => setShowSuccessModal(false)}
-                  className="w-full py-3.5 bg-[#183EEB] hover:bg-[#2049fa] text-white rounded-xl font-bold text-sm transition-all shadow-lg shadow-blue-600/30"
-                >
-                  Got It
-                </button>
-                <Link
-                  href="/"
-                  className="w-full py-3 bg-white/[0.04] hover:bg-white/[0.08] text-white/70 hover:text-white rounded-xl font-medium text-xs transition-colors"
-                >
-                  Back to Homepage
-                </Link>
+
+              {/* Embedded Brand Video with Autoplay */}
+              <div className="relative z-10">
+                <BrandVideoEmbed autoplay={true} />
               </div>
             </motion.div>
           </div>
