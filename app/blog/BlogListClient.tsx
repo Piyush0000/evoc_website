@@ -7,7 +7,6 @@ import { Search, RefreshCcw } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Blog, fetchBlogs } from '@/lib/api';
 import { useBlogEvents } from '@/lib/useBlogEvents';
-import BlogGate from '@/components/BlogGate';
 
 const CATEGORIES = [
   'All Posts',
@@ -40,8 +39,6 @@ export default function BlogListClient({ initialBlogs }: { initialBlogs: Blog[] 
 
   return (
     <>
-      <BlogGate />
-
       {/* Filters */}
       <div className="flex items-center gap-8 mb-16 border-b border-white/5 pb-4 overflow-x-auto whitespace-nowrap scrollbar-hide">
         {CATEGORIES.map((cat) => (
