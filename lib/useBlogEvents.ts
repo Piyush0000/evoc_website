@@ -6,7 +6,10 @@ const RECONNECT_DELAY_MS = 5000;
 
 export function useBlogEvents(onUpdate: () => void) {
   const onUpdateRef = useRef(onUpdate);
-  onUpdateRef.current = onUpdate;
+
+  useEffect(() => {
+    onUpdateRef.current = onUpdate;
+  }, [onUpdate]);
 
   useEffect(() => {
     let es: EventSource | null = null;
