@@ -43,6 +43,9 @@ export default function Home() {
         <BrandsStrip />
       </div>
 
+      {/* Success-Based Pricing Section */}
+      <PricingSection />
+
       {/* Problem vs Solution Section */}
       <ProblemSolution />
 
@@ -51,9 +54,6 @@ export default function Home() {
 
       {/* Simplified Setup System */}
       <SimplifiedSetup />
-
-      {/* Success-Based Pricing Section */}
-      <PricingSection />
 
       {/* Cinematic Orders Stat Section */}
       <OrdersStatSection />

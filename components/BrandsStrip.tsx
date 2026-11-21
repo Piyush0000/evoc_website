@@ -4,12 +4,23 @@ import { motion } from 'framer-motion';
 import { getPath } from '@/lib/paths';
 
 export default function BrandsStrip() {
-  const brands = [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((i) => getPath(`/brands/brand-${i}.png`));
+  const brands = [
+    { name: 'Tarayu Ayurveda', file: 'tarayu' },
+    { name: 'Nevira', file: 'nevira' },
+    { name: 'Niush Care', file: 'niush-care' },
+    { name: 'ZepperX', file: 'zepperx' },
+    { name: 'Vogue 7', file: 'vogue7' },
+    { name: 'Y', file: 'y-brand' },
+    { name: 'Pistachios', file: 'pistachios' },
+    { name: 'Garden Nest', file: 'garden-nest' },
+    { name: 'Sweatslim Fitness', file: 'sweatslim' },
+  ].map((b) => ({ ...b, src: getPath(`/brands/${b.file}.png`) }));
   return (
     <div id="brands" className="w-full py-12 overflow-hidden bg-transparent relative z-20">
-      <div className="flex flex-col items-center mb-10">
-        <span className="text-white/40 text-[15px] font-bold tracking-[0.3em] uppercase">
-          Trusted by 100+ high-growth brands
+      <div className="flex flex-col items-center mb-10 px-6">
+        {/* pl offsets the trailing letter-spacing so wrapped lines stay visually centered */}
+        <span className="block text-center text-white/40 text-[12px] sm:text-[15px] font-bold tracking-[0.25em] sm:tracking-[0.3em] pl-[0.25em] sm:pl-[0.3em] uppercase leading-relaxed">
+          Trusted by 500+ high-growth brands
         </span>
       </div>
       
@@ -27,18 +38,18 @@ export default function BrandsStrip() {
           }}
         >
           {/* Double the brands for seamless loop */}
-          {[...brands, ...brands].map((logo, index) => (
+          {[...brands, ...brands].map((brand, index) => (
             <div 
               key={index} 
               className="flex items-center justify-center opacity-50 hover:opacity-100 transition-all duration-500"
             >
               <img 
-                src={logo} 
-                alt="Brand logo" 
+                src={brand.src}
+                alt={brand.name}
                 loading="lazy"
                 decoding="async"
-                className="h-8 md:h-12 w-auto object-contain max-w-[120px] brightness-0 invert"
-                width={120}
+                className="h-8 md:h-12 w-auto object-contain max-w-[140px] md:max-w-[180px] brightness-0 invert"
+                width={180}
                 height={48}
               />
             </div>

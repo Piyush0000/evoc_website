@@ -4,7 +4,6 @@ import React, { ComponentProps, ReactNode } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
-import { getPath } from '@/lib/paths';
 import { ArrowRight, ShieldCheck, Mail, Phone } from 'lucide-react';
 
 const SocialLinks = [
@@ -84,6 +83,38 @@ const testimonials = [
   }
 ];
 
+type FooterLink = { label: string; href: string; external?: boolean; highlight?: boolean };
+
+const footerColumns: { title: string; links: FooterLink[] }[] = [
+  {
+    title: 'Evoc Labs',
+    links: [
+      { label: 'Brands we worked with', href: '/#brands' },
+      { label: 'Testimonials', href: '/#testimonials' },
+      { label: 'Pricing Structure', href: '/#impact' },
+      { label: 'Case Studies & Blog', href: 'https://www.unstoppableindia.net/post/how-evoc-labs-scaled-a-brand-from-32-lakhs-month-to-1-crore-month-in-just-30-days', external: true },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'Home', href: '/' },
+      { label: 'About Us', href: '/about' },
+      { label: 'Careers', href: '/careers' },
+      { label: 'Contact Us', href: 'mailto:contact@evoclabs.com', external: true },
+      { label: 'Login Portal →', href: 'https://app.evoclabs.com/', external: true, highlight: true },
+    ],
+  },
+  {
+    title: 'Legalities',
+    links: [
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms of Service', href: '/terms' },
+      { label: 'Contract Termination', href: '/contract-termination' },
+    ],
+  },
+];
+
 type ViewAnimationProps = {
   delay?: number;
   className?: ComponentProps<typeof motion.div>['className'];
@@ -134,7 +165,7 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
                   Trusted by <span className="text-[#183EEB] italic font-serif">forward-thinking</span> brands
                 </h2>
                 <p className="text-white/40 text-sm md:text-base max-w-md font-medium">
-                  Join 100+ brands that are scaling their e-commerce operations with EVOC Labs.
+                  Join 500+ brands that are scaling their e-commerce operations with EVOC Labs.
                 </p>
               </motion.div>
 
@@ -231,186 +262,126 @@ export default function FooterSection({ hideCTA = false }: { hideCTA?: boolean }
         </div>
       )}
 
-      {/* ─── SECTION 2: HIGH-TECH RADIAL BORDER & NAVIGATION ─── */}
-      <div className="relative w-full max-w-7xl mx-auto px-6 pt-16 pb-14 mt-6">
-
-        {/* Curved Top Border with Horizon Glow Line (Extracted from Design) */}
-        <div className="absolute top-0 left-6 right-6 h-px bg-white/10" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2/5 md:w-1/3 h-[2px] bg-gradient-to-r from-transparent via-[#183EEB] to-transparent blur-[1px]" />
-
-        {/* Subtle radial ambient cone from top line */}
+      {/* ─── SECTION 2: NAVIGATION + GIANT WORDMARK ─── */}
+      <div className="relative w-full mt-6 overflow-hidden bg-gradient-to-b from-[#030303] via-[#040a1c] to-[#06112b]">
+        {/* Vertical stripe texture, fading in towards the bottom */}
         <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-36 pointer-events-none"
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'radial-gradient(50% 120px at 50% 0%, rgba(24, 62, 235, 0.12), transparent)'
+            backgroundImage: 'repeating-linear-gradient(90deg, rgba(120,170,255,0.045) 0px, rgba(120,170,255,0.045) 1px, transparent 1px, transparent 34px)',
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 45%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 45%, black 100%)',
           }}
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 pt-8 relative z-10">
+        {/* Diagonal light beam from the top right */}
+        <div
+          aria-hidden="true"
+          className="absolute -top-[30%] right-[8%] w-[38%] h-[170%] pointer-events-none rotate-[28deg] origin-top"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(70,150,255,0.30) 0%, rgba(40,110,255,0.14) 45%, transparent 85%)',
+            filter: 'blur(70px)',
+          }}
+        />
 
-          {/* Brand & Identity Column - 5 columns */}
-          <AnimatedContainer delay={0.1} className="lg:col-span-5 space-y-6">
-            <div className="flex items-center gap-3">
-              <img
-                src={getPath('/logo.png')}
-                alt="Evoc Labs Logo"
-                width={42}
-                height={42}
-                className="object-contain brightness-[3] grayscale"
-                style={{ width: '42px', height: '42px' }}
-              />
-              <span className="text-xl font-bold tracking-tight text-white">
-                Evoc <span className="text-[#183EEB]">Labs</span>
-              </span>
-            </div>
+        {/* Hairline at the top */}
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-            <p className="text-[14px] leading-relaxed text-white/70 max-w-sm">
-              Evoc Labs is an AI-powered platform that runs your entire e-commerce business—from store to ads to orders in one place.
-            </p>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-16 md:pt-20">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
 
-            <div className="space-y-2 pt-1 text-[13px] text-white/80">
-              <p className="flex items-center gap-2.5">
-                <Phone className="w-3.5 h-3.5 text-[#183EEB]" />
-                <span>+91 9548833953</span>
+            {/* Brand & Identity Column */}
+            <AnimatedContainer delay={0.1} className="lg:col-span-5">
+              <p className="text-[12px] font-medium text-[#4c8dff] pb-3 border-b border-[#183EEB]/40">
+                &copy; {new Date().getFullYear()} EVOC LABS PVT LTD
               </p>
-              <p className="flex items-center gap-2.5">
-                <Mail className="w-3.5 h-3.5 text-[#183EEB]" />
-                <span>contact@evoclabs.com</span>
-              </p>
-            </div>
 
-            {/* Social Icons */}
-            <div className="flex gap-2.5 pt-2">
-              {SocialLinks.map((social, i) => (
-                <a
-                  key={i}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  title={social.name}
-                  className="w-9 h-9 rounded-xl flex items-center justify-center transition-all bg-white/[0.04] border border-white/[0.08] text-white/70 hover:bg-[#183EEB]/20 hover:border-[#183EEB]/40 hover:text-white hover:scale-105"
-                >
-                  <social.icon width={16} height={16} />
+              {/* Social Icons */}
+              <div className="flex gap-2 pt-5">
+                {SocialLinks.map((social, i) => (
+                  <a
+                    key={i}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={social.name}
+                    aria-label={social.name}
+                    className="w-8 h-8 rounded-md flex items-center justify-center transition-all bg-white/[0.04] border border-white/[0.12] text-white/70 hover:bg-[#183EEB]/25 hover:border-[#183EEB]/60 hover:text-white"
+                  >
+                    <social.icon width={14} height={14} />
+                  </a>
+                ))}
+              </div>
+
+              <p className="mt-5 text-[13px] leading-relaxed text-white/60 max-w-sm">
+                <span className="text-white font-semibold">Evoc Labs</span> is an AI-powered full-stack commerce platform founded by <span className="text-white font-semibold">Nishant Raj</span> that helps e-commerce and D2C brands launch, manage, and scale from a single dashboard. Instead of charging upfront subscription fees, it operates on a performance-based model of 4% per delivered order.
+              </p>
+
+              <div className="space-y-1.5 pt-4 text-[13px] text-white/75">
+                <a href="tel:+919548833953" className="flex items-center gap-2.5 hover:text-white transition-colors">
+                  <Phone className="w-3.5 h-3.5 text-[#4c8dff]" />
+                  <span>+91 9548833953</span>
                 </a>
+                <a href="mailto:contact@evoclabs.com" className="flex items-center gap-2.5 hover:text-white transition-colors">
+                  <Mail className="w-3.5 h-3.5 text-[#4c8dff]" />
+                  <span>contact@evoclabs.com</span>
+                </a>
+              </div>
+            </AnimatedContainer>
+
+            {/* Nav Columns */}
+            <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-10">
+              {footerColumns.map((col, ci) => (
+                <AnimatedContainer key={col.title} delay={0.2 + ci * 0.1}>
+                  <h4 className="text-[12px] font-medium text-[#4c8dff] pb-3 mb-5 border-b border-[#183EEB]/40">
+                    {col.title}
+                  </h4>
+                  <ul className="space-y-3 text-[13px]">
+                    {col.links.map((l) => (
+                      <li key={l.label}>
+                        {l.external ? (
+                          <a
+                            href={l.href}
+                            target={l.href.startsWith('http') ? '_blank' : undefined}
+                            rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                            className={`${l.highlight ? 'text-white font-semibold hover:text-[#4c8dff]' : 'text-white/80 hover:text-white'} transition-colors duration-300`}
+                          >
+                            {l.label}
+                          </a>
+                        ) : (
+                          <Link href={l.href} className="text-white/80 hover:text-white transition-colors duration-300">
+                            {l.label}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </AnimatedContainer>
               ))}
             </div>
-          </AnimatedContainer>
-
-          {/* Nav Categories Column - 7 columns */}
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12">
-
-            {/* EVOC LABS */}
-            <AnimatedContainer delay={0.2}>
-              <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-[#183EEB] mb-5">
-                EVOC LABS
-              </h4>
-              <ul className="space-y-3.5 text-sm">
-                <li>
-                  <Link href="/#brands" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    Brands we worked with
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#testimonials" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    Testimonials
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#impact" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    Pricing Structure
-                  </Link>
-                </li>
-                <li>
-                  <a href="https://www.unstoppableindia.net/post/how-evoc-labs-scaled-a-brand-from-32-lakhs-month-to-1-crore-month-in-just-30-days" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    Case Studies & Blog
-                  </a>
-                </li>
-              </ul>
-            </AnimatedContainer>
-
-            {/* COMPANY */}
-            <AnimatedContainer delay={0.3}>
-              <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-[#183EEB] mb-5">
-                COMPANY
-              </h4>
-              <ul className="space-y-3.5 text-sm">
-                <li>
-                  <Link href="/" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/careers" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    Careers
-                  </Link>
-                </li>
-                <li>
-                  <a href="mailto:contact@evoclabs.com" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    Contact Us
-                  </a>
-                </li>
-                <li>
-                  <a href="https://app.evoclabs.com/" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-[#183EEB] hover:translate-x-1 inline-flex items-center gap-1 transition-all duration-300 font-semibold">
-                    Login Portal →
-                  </a>
-                </li>
-              </ul>
-            </AnimatedContainer>
-
-            {/* LEGALITIES */}
-            <AnimatedContainer delay={0.4}>
-              <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-[#183EEB] mb-5">
-                LEGALITIES
-              </h4>
-              <ul className="space-y-3.5 text-sm">
-                <li>
-                  <Link href="/privacy" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terms" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    Terms of Service
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/contract-termination" className="text-white/70 hover:text-white hover:translate-x-1 inline-flex items-center transition-all duration-300">
-                    Contract Termination
-                  </Link>
-                </li>
-              </ul>
-            </AnimatedContainer>
-
           </div>
-
         </div>
 
-        {/* ─── BOTTOM COPYRIGHT BAR ─── */}
-        <AnimatedContainer delay={0.5} className="mt-14 pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-white/40">
-          <p>
-            &copy; {new Date().getFullYear()} EVOC LABS PVT LTD. All rights reserved.
-          </p>
-          <div className="flex items-center gap-6">
-            <Link href="/privacy" className="hover:text-white/80 transition-colors">
-              Privacy
-            </Link>
-            <Link href="/terms" className="hover:text-white/80 transition-colors">
-              Terms
-            </Link>
-            <Link href="/contract-termination" className="hover:text-white/80 transition-colors">
-              Contract Termination
-            </Link>
-            <a href="mailto:contact@evoclabs.com" className="hover:text-white/80 transition-colors">
-              Support
-            </a>
+        {/* Giant wordmark — cropped by the bottom edge, letters light up on hover */}
+        <div className="relative z-10 mt-14 md:mt-20 h-[15vw] max-h-[205px] overflow-hidden select-none">
+          <div
+            aria-label="Evoc Labs"
+            role="img"
+            className="flex justify-center whitespace-nowrap leading-[0.8] font-semibold tracking-[-0.05em]"
+            style={{ fontFamily: 'var(--font-inter), sans-serif', fontSize: 'min(21vw, 290px)' }}
+          >
+            {'Evoc Labs'.split('').map((ch, i) =>
+              ch === ' ' ? (
+                <span key={i} className="w-[0.22em]" aria-hidden="true" />
+              ) : (
+                <span key={i} aria-hidden="true" className="footer-wordmark-letter">
+                  {ch}
+                </span>
+              )
+            )}
           </div>
-        </AnimatedContainer>
-
+        </div>
       </div>
     </footer>
   );

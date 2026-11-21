@@ -12,7 +12,7 @@ const impactData = [
     alt: "Annual Sales Dashboard"
   },
   {
-    title: "200+",
+    title: "20+",
     subtitle: "sellers are doing 1 Crore+ sales annually",
     image: "/images/impact/seller_tiers_chart.webp",
     alt: "Seller Tiers"

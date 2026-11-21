@@ -99,7 +99,7 @@ export default function ProblemSolution() {
               {/* Card Image Container */}
               <div className="relative w-full aspect-[4/3] rounded-[18px] md:rounded-[24px] overflow-hidden bg-black/40 z-10 border border-white/5">
                 <Image 
-                  src="/images/problem-solution/problem-infographic.webp"
+                  src="/images/problem-solution/problem-infographic-v2.webp"
                   alt="Fragmented Problem Diagram"
                   fill
                   className="object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"
@@ -176,7 +176,7 @@ export default function ProblemSolution() {
               {/* Card Image Container */}
               <div className="relative w-full aspect-[4/3] rounded-[18px] md:rounded-[24px] overflow-hidden bg-[#02050f]/80 z-10 border border-blue-500/20">
                 <Image 
-                  src="/images/problem-solution/solution-infographic.webp"
+                  src="/images/problem-solution/solution-infographic-v2.webp"
                   alt="Unified Solution Platform Diagram"
                   fill
                   className="object-contain p-2 sm:p-3 transition-transform duration-700 ease-out group-hover:scale-105"

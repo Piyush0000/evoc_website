@@ -128,7 +128,7 @@ export default function ReviewsSection() {
         >
           <div className="inline-flex items-center gap-2 text-white/40 text-sm font-medium">
             <div className="w-1.5 h-1.5 rounded-full bg-[#183EEB] animate-pulse" />
-            Join 100+ brands scaling with EVOC Labs
+            Join 500+ brands scaling with EVOC Labs
           </div>
         </motion.div>
       </div>

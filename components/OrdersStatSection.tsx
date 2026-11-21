@@ -174,7 +174,7 @@ export default function OrdersStatSection() {
             letterSpacing: '-0.04em'
           }}
         >
-          <Counter value={20000} duration={2500} format={true} suffix="+" />
+          <Counter value={200000} duration={2500} format={true} suffix="+" />
         </div>
       </div>
 

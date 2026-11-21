@@ -71,7 +71,7 @@ const PercentIcon = () => (
 
 export default function PricingSection() {
   return (
-    <section className="bg-black pt-0 pb-32 px-6 overflow-hidden">
+    <section className="bg-black pt-8 pb-24 md:pb-32 px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         {/* Heading */}
         <motion.h2 
