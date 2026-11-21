@@ -31,7 +31,7 @@ export default async function BlogListPage() {
           </p>
         </div>
 
-        {/* Client: filters + blog grid + BlogGate + live updates */}
+        {/* Client: filters + blog grid + live updates */}
         <BlogListClient initialBlogs={blogs} />
 
         {/* Final CTA */}
