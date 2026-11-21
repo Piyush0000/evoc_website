@@ -1,7 +1,6 @@
 // Careers data comes from the Orbit backend; openings and the application form
 // are managed in the admin panel (Hiring).
-const RAW_API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.evoclabs.com';
-const API_URL = RAW_API_URL.replace(/\/+$/, '').replace(/\/api$/, '');
+import { API_BASE_URL as API_URL } from './apiBase';
 const CAREERS_API = `${API_URL}/api/careers`;
 
 export interface Position {

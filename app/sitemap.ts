@@ -3,13 +3,16 @@ import { fetchPositions, type Position } from '@/lib/careers';
 
 const BASE_URL = 'https://www.evoclabs.com';
 
-const RAW_API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.evoclabs.com';
-const API_URL = RAW_API_URL.replace(/\/+$/, '').replace(/\/api$/, '');
+import { API_BASE_URL as API_URL } from '@/lib/apiBase';
+
+// Never let a slow or unreachable API stall the build; fall back to static pages.
+const SITEMAP_FETCH_TIMEOUT_MS = 8000;
 
 async function fetchPublishedBlogs() {
   try {
     const res = await fetch(`${API_URL}/api/blogs`, {
       next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(SITEMAP_FETCH_TIMEOUT_MS),
     });
     if (!res.ok) return [];
     const result = await res.json();
@@ -22,7 +25,10 @@ async function fetchPublishedBlogs() {
 
 async function fetchOpenPositions(): Promise<Position[]> {
   try {
-    return await fetchPositions({ next: { revalidate: 3600 } } as RequestInit);
+    return await fetchPositions({
+      next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(SITEMAP_FETCH_TIMEOUT_MS),
+    } as RequestInit);
   } catch {
     return [];
   }

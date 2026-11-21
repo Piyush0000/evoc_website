@@ -4,6 +4,10 @@ import FooterSection from '@/components/FooterSection';
 import { fetchBlogs } from '@/lib/api';
 import BlogListClient from './BlogListClient';
 
+// Blog content is live from the Orbit backend: always render on request and
+// never prerender at build time (keeps backend availability out of the build).
+export const dynamic = 'force-dynamic';
+
 export default async function BlogListPage() {
   const blogs = await fetchBlogs().catch(() => []);
 

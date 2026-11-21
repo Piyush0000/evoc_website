@@ -1,8 +1,4 @@
-const RAW_API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.evoclabs.com';
-// Some env conventions set NEXT_PUBLIC_API_URL to ".../api"; this module
-// always appends "/api/...". Strip a trailing "/api" (and any trailing slash)
-// so we never produce "/api/api/blogs".
-const API_URL = RAW_API_URL.replace(/\/+$/, '').replace(/\/api$/, '');
+import { API_BASE_URL as API_URL } from './apiBase';
 
 export interface Blog {
   id: string | number;

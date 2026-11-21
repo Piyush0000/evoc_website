@@ -6,6 +6,10 @@ import { fetchBlogById, fetchBlogs, getRelativeTime } from '@/lib/api';
 import BlogDetailClient from './BlogDetailClient';
 import BlogStyles from './BlogStyles';
 
+// Blog content is live from the Orbit backend: always render on request and
+// never prerender at build time (keeps backend availability out of the build).
+export const dynamic = 'force-dynamic';
+
 export default async function BlogDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 

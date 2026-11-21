@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.evoclabs.com';
+import { API_BASE_URL as API_URL } from './apiBase';
 const POLL_INTERVAL_MS = 8000;
 const RECONNECT_DELAY_MS = 5000;
 
